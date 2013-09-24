@@ -21,6 +21,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 import org.postgresql.Driver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 import org.springframework.context.annotation.Bean;
@@ -53,29 +54,31 @@ public class ApplicationConfiguration {
         SpringApplication.run(ApplicationConfiguration.class, args);
     }
 
-    @Bean
+    @Bean(destroyMethod = "close")
     @Profile("cloud")
     DataSource cloudDataSource() {
-        PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloudFactory().getCloud().getServiceInfo("build-monitor-db");
+        PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloud().getServiceInfo("build-monitor-db");
 
         BoneCPDataSource dataSource = new BoneCPDataSource();
         dataSource.setDriverClass(Driver.class.getCanonicalName());
-        dataSource.setJdbcUrl(serviceInfo.getJdbcUrl());
+        dataSource.setJdbcUrl(jdbcUrl(serviceInfo));
         dataSource.setUsername(serviceInfo.getUserName());
         dataSource.setPassword(serviceInfo.getPassword());
+        dataSource.setMaxConnectionsPerPartition(2);
 
         return dataSource;
     }
 
     @Bean
     @Profile("cloud")
-    CloudFactory cloudFactory() {
-        return new CloudFactory();
+    Cloud cloud() {
+        return new CloudFactory().getCloud();
     }
 
-    @Bean
+    @Bean(destroyMethod = "close")
     @Profile("default")
     DataSource defaultDataSource() {
+
         BoneCPDataSource dataSource = new BoneCPDataSource();
         dataSource.setDriverClass(Driver.class.getCanonicalName());
         dataSource.setJdbcUrl("jdbc:postgresql://localhost/build_monitor");
@@ -95,6 +98,11 @@ public class ApplicationConfiguration {
         flyway.setLocations("META-INF/db/migration");
 
         return flyway;
+    }
+
+    private String jdbcUrl(PostgresqlServiceInfo serviceInfo) {
+        return String.format("jdbc:postgresql://%s:%d/%s", serviceInfo.getHost(), serviceInfo.getPort(),
+                serviceInfo.getUserName());
     }
 
 }

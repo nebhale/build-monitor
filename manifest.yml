@@ -2,8 +2,10 @@
 applications:
 - name: build-monitor
   memory: 1G
-  instances: 1
+  instances: 2
   path: target/build-monitor.jar
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
   services:
     build-monitor-db:
       label: elephantsql
