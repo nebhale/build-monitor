@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/projects/{id}/webhook")
 final class WebHookController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "")
+    @RequestMapping(method = RequestMethod.POST, value = "")
     void webhook(@PathVariable("id") Project project, @RequestBody String request) {
         System.out.println(request);
     }
