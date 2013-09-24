@@ -19,6 +19,7 @@ package com.nebhale.buildmonitor.web;
 import com.nebhale.buildmonitor.domain.Project;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,7 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 final class WebHookController {
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    void webhook(@PathVariable("id") Project project) {
+    void webhook(@PathVariable("id") Project project, @RequestBody String request) {
+        System.out.println(request);
     }
 
 }
