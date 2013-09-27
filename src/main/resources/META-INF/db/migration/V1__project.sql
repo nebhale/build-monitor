@@ -15,6 +15,6 @@
  */
 
 CREATE TABLE project(
-  id VARCHAR(8),
+  key VARCHAR(8) PRIMARY KEY,
   name VARCHAR(64) NOT NULL
 );

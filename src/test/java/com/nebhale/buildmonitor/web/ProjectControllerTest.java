@@ -22,16 +22,16 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ProjectControllerTest extends AbstractControllerTest {
+public final class ProjectControllerTest extends AbstractControllerTest {
 
     private static final MediaType MEDIA_TYPE = MediaType.valueOf("application/vnd.nebhale.buildmonitor.project+json");
 
@@ -40,16 +40,14 @@ public class ProjectControllerTest extends AbstractControllerTest {
 
     @Test
     public void create() throws Exception {
-        int initialCount = countRowsInTable("project");
-
         this.mockMvc.perform(
                 post("/projects")
                         .contentType(MEDIA_TYPE)
-                        .content(toJson("id:TEST_KEY", "name:Test Name")))
+                        .content(toJson("key:TEST_KEY", "name:Test Name")))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "http://localhost/projects/TEST_KEY"));
 
-        assertEquals(initialCount + 1, countRowsInTable("project"));
+        assertEquals(1, countRowsInTable("project"));
     }
 
     @Test
@@ -59,7 +57,7 @@ public class ProjectControllerTest extends AbstractControllerTest {
         this.mockMvc.perform(
                 post("/projects")
                         .contentType(MEDIA_TYPE)
-                        .content(toJson("id:TEST_KEY", "name:Test Name")))
+                        .content(toJson("key:TEST_KEY", "name:Test Name")))
                 .andExpect(status().isBadRequest());
     }
 
@@ -68,9 +66,9 @@ public class ProjectControllerTest extends AbstractControllerTest {
         this.mockMvc.perform(
                 post("/projects")
                         .contentType(MEDIA_TYPE)
-                        .content(toJson("id:", "name:Test Name")))
+                        .content(toJson("key:", "name:Test Name")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0]").value(startsWith("id value '' size")));
+                .andExpect(jsonPath("$[0]").value(startsWith("key value '' size")));
     }
 
     @Test
@@ -78,9 +76,9 @@ public class ProjectControllerTest extends AbstractControllerTest {
         this.mockMvc.perform(
                 post("/projects")
                         .contentType(MEDIA_TYPE)
-                        .content(toJson("id:012345678", "name:Test Name")))
+                        .content(toJson("key:012345678", "name:Test Name")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0]").value(startsWith("id value '012345678' size")));
+                .andExpect(jsonPath("$[0]").value(startsWith("key value '012345678' size")));
     }
 
     @Test
@@ -88,7 +86,7 @@ public class ProjectControllerTest extends AbstractControllerTest {
         this.mockMvc.perform(
                 post("/projects")
                         .contentType(MEDIA_TYPE)
-                        .content(toJson("id:TEST_KEY", "name:")))
+                        .content(toJson("key:TEST_KEY", "name:")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("name value '' size")));
     }
@@ -98,22 +96,26 @@ public class ProjectControllerTest extends AbstractControllerTest {
         this.mockMvc.perform(
                 post("/projects")
                         .contentType(MEDIA_TYPE)
-                        .content(toJson("id:TEST_KEY",
+                        .content(toJson("key:TEST_KEY",
                                 "name:012345678901234567890123456789012345678901234567890123456789012345")))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0]").value(startsWith("name value '012345678901234567890123456789012345678901234567890123456789012345' size")));
+                .andExpect(jsonPath("$[0]").value(startsWith("name value " +
+                        "'012345678901234567890123456789012345678901234567890123456789012345' size")));
     }
 
     @Test
     public void readAll() throws Exception {
-        this.projectRepository.saveAndFlush(new Project("ALPHA", "Test Name"));
         this.projectRepository.saveAndFlush(new Project("BRAVO", "Test Name"));
+        this.projectRepository.saveAndFlush(new Project("ALPHA", "Test Name"));
+        this.projectRepository.saveAndFlush(new Project("CHARLIE", "Test Name"));
 
         this.mockMvc.perform(
                 get("/projects")
                         .accept(MEDIA_TYPE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].id").value(hasItems("ALPHA", "BRAVO")));
+                .andExpect(jsonPath("$[0].key").value("ALPHA"))
+                .andExpect(jsonPath("$[1].key").value("BRAVO"))
+                .andExpect(jsonPath("$[2].key").value("CHARLIE"));
     }
 
     @Test
@@ -124,8 +126,13 @@ public class ProjectControllerTest extends AbstractControllerTest {
                 get("/projects/TEST_KEY")
                         .accept(MEDIA_TYPE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("TEST_KEY"))
-                .andExpect(jsonPath("$.name").value("Test Name"));
+                .andExpect(jsonPath("$.key").value("TEST_KEY"))
+                .andExpect(jsonPath("$.name").value("Test Name"))
+                .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value("http://localhost/projects/TEST_KEY"))
+                .andExpect(jsonPath("$.links[?(@.rel==builds)].href[0]").value
+                        ("http://localhost/projects/TEST_KEY/builds"))
+                .andExpect(jsonPath("$.links[?(@.rel==webhook)].href[0]").value
+                        ("http://localhost/projects/TEST_KEY/webhook"));
     }
 
     @Test
@@ -135,4 +142,23 @@ public class ProjectControllerTest extends AbstractControllerTest {
                         .accept(MEDIA_TYPE))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void del() throws Exception {
+        this.projectRepository.saveAndFlush(new Project("TEST_KEY", "Test Name"));
+
+        this.mockMvc.perform(
+                delete("/projects/TEST_KEY")
+                        .accept(MEDIA_TYPE))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteNotFound() throws Exception {
+        this.mockMvc.perform(
+                delete("/projects/TEST_KEY")
+                    .accept(MEDIA_TYPE))
+                .andExpect(status().isNotFound());
+    }
+
 }

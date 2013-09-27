@@ -44,8 +44,13 @@ public abstract class AbstractControllerTest extends AbstractTransactionalJUnit4
     private volatile WebApplicationContext webApplicationContext;
 
     @Before
-    public void before() {
+    public final void mockMvc() {
         this.mockMvc = webAppContextSetup(this.webApplicationContext).build();
+    }
+
+    @Before
+    public final void clearDatabase() {
+        deleteFromTables("project");
     }
 
     protected final String toJson(String... pairs) throws JsonProcessingException {

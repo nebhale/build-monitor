@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>0.5.0.M4</version>
+        <version>0.5.0.BUILD-SNAPSHOT</version>
     </parent>
 
     <groupId>com.nebhale</groupId>
@@ -23,8 +23,8 @@
         <flyway.version>2.2.1</flyway.version>
         <json-path.version>0.8.1</json-path.version>
         <postgres.version>9.2-1003-jdbc4</postgres.version>
-        <spring-cloud.version>0.9.1</spring-cloud.version>
-        <spring-hateoas.version>0.7.0.RELEASE</spring-hateoas.version>
+        <spring-cloud.version>0.9.2-BUILD-SNAPSHOT</spring-cloud.version>
+        <spring-hateoas.version>0.8.0.RELEASE</spring-hateoas.version>
         <spring-plugin.version>0.8.0.RELEASE</spring-plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -138,12 +138,21 @@
             <id>spring-milestones</id>
             <url>http://repo.spring.io/milestone</url>
         </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
             <id>spring-milestones</id>
             <url>http://repo.spring.io/milestone</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/snapshot</url>
         </pluginRepository>
     </pluginRepositories>
 
