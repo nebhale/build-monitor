@@ -43,7 +43,7 @@ public final class WebHookControllerTest extends AbstractControllerTest {
 
     private final Project project = new Project("TEST-KEY", "Test Name");
 
-    private final Build build = new Build(project, "http://host/job/job-name/211/", Build.State.UNKNOWN);
+    private final Build build = new Build(this.project, "http://host/job/job-name/211/", Build.State.UNKNOWN);
 
     @Autowired
     private volatile BuildRepository buildRepository;

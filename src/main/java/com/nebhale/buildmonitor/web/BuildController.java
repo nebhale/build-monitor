@@ -65,7 +65,8 @@ final class BuildController extends AbstractController {
         }
 
         Page<Build> builds = this.repository.findAllByProjectOrderByCreatedDesc(project, pageable);
-        PagedResources<Resource<Build>> resources = pagedResourcesAssembler.toResource(builds, resourceAssembler);
+        PagedResources<Resource<Build>> resources = this.pagedResourcesAssembler.toResource(builds,
+                this.resourceAssembler);
 
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }

@@ -16,7 +16,6 @@
 
 package com.nebhale.buildmonitor.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nebhale.buildmonitor.ApplicationConfiguration;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public abstract class AbstractControllerTest extends AbstractTransactionalJUnit4
         deleteFromTables("project");
     }
 
-    protected final String toJson(String... pairs) throws JsonProcessingException {
+    protected final String toJson(String... pairs) {
         StringBuilder sb = new StringBuilder("{ ");
 
         Set<String> entries = new HashSet<>(pairs.length);

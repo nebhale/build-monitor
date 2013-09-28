@@ -73,7 +73,16 @@ public final class Build {
      */
     @JsonIgnore
     public Integer getId() {
-        return id;
+        return this.id;
+    }
+
+    /**
+     * Returns the date that the build was created
+     *
+     * @return the date that the build was created
+     */
+    public Date getCreated() {
+        return this.created;
     }
 
     /**
@@ -83,7 +92,7 @@ public final class Build {
      */
     @JsonIgnore
     public Project getProject() {
-        return project;
+        return this.project;
     }
 
     /**
@@ -92,7 +101,7 @@ public final class Build {
      * @return the uri of the build
      */
     public String getUri() {
-        return uri;
+        return this.uri;
     }
 
     /**
@@ -101,7 +110,7 @@ public final class Build {
      * @return the state of the build
      */
     public State getState() {
-        return state;
+        return this.state;
     }
 
     /**

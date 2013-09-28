@@ -74,6 +74,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>cloudfoundry-connector</artifactId>
             <version>${spring-cloud.version}</version>
@@ -102,30 +106,6 @@
                     <target>7</target>
                 </configuration>
             </plugin>
-            <!--plugin>
-                <groupId>org.jasig.maven</groupId>
-                <artifactId>sass-maven-plugin</artifactId>
-                <version>1.1.1</version>
-                <executions>
-                    <execution>
-                        <id>package</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>update-stylesheets</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <resources>
-                        <resource>
-                            <source>
-                                <directory>${basedir}/src/main/stylesheets</directory>
-                            </source>
-                            <destination>${basedir}/src/main/resources/static/css</destination>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

@@ -1,0 +1,81 @@
+html {
+    background-color: black;
+    border-color: white;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+.project {
+    border-radius: 4px;
+    float: left;
+    height: 185px;
+    margin-left: 16px;
+    margin-top: 16px;
+    padding: 16px;
+    width: 428px;
+}
+
+.key {
+    font-size: 8em;
+    font-weight: bold;
+    margin-top: -21px;
+    text-align: center;
+}
+
+.builds {
+    border-top: solid thin;
+}
+
+.last {
+    float: left;
+    font-size: 2em;
+    height: 32px;
+    margin-top: 13px;
+    text-align: center;
+    width: 64px;
+    text-align: center;
+}
+
+.history {
+    border-left: solid thin;
+    float: left;
+    margin-left: 16px;
+    margin-top: 16px;
+    padding-left: 16px;
+}
+
+.build {
+    float: left;
+    height: 32px;
+    margin-left: 1px;
+    width: 32px;
+    text-align: center;
+}
+
+.in_progress {
+    background-color: orange;
+}
+
+.pass {
+    background-color: green;
+}
+
+.fail {
+    background-color: red;
+}
+
+.unknown {
+    background-color: grey;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: white;
+    text-decoration:none;
+}

@@ -89,7 +89,6 @@ public class ApplicationConfiguration {
     Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
-        flyway.setLocations("META-INF/db/migration");
 
         return flyway;
     }
