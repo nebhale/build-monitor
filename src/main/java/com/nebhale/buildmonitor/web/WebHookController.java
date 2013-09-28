@@ -117,6 +117,7 @@ final class WebHookController extends AbstractController {
         });
     }
 
+    @SuppressWarnings("unchecked")
     private ResponseEntity<Void> webHook(Project project, String payloadString, PayloadParser payloadParser) throws
             IOException {
         this.logger.debug(payloadString);

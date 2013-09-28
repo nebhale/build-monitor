@@ -19,6 +19,7 @@ package com.nebhale.buildmonitor.domain;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public final class BuildTest {
@@ -30,6 +31,7 @@ public final class BuildTest {
         Build build = new Build(this.project, "test-uri", Build.State.PASS);
 
         assertNull(build.getId());
+        assertNotNull(build.getCreated());
         assertEquals(this.project, build.getProject());
         assertEquals("test-uri", build.getUri());
         assertEquals(Build.State.PASS, build.getState());

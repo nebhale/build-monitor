@@ -27,7 +27,7 @@ public final class BuildResourceAssemblerTest extends AbstractResourceAssemblerT
 
     private final Project project = new Project("test-key", "test-name");
 
-    private final Build build = new Build(project, "test-uri", Build.State.PASS);
+    private final Build build = new Build(this.project, "test-uri", Build.State.PASS);
 
     private final BuildResourceAssembler resourceAssembler = new BuildResourceAssembler(this.entityLinks);
 
