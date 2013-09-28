@@ -95,7 +95,7 @@ final class WebHookController extends AbstractController {
 
                 if ("STARTED".equals(phase)) {
                     return Build.State.IN_PROGRESS;
-                } else if ("COMPLETED".equals(phase)) {
+                } else if ("COMPLETED".equals(phase) || "FINISHED".equals(phase)) {
                     Object status = build.get("status");
 
                     if ("SUCCESS".equals(status)) {

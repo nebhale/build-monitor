@@ -133,8 +133,13 @@ public final class WebHookControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void jenkinsWebHookPass() throws Exception {
-        assertState("jenkins-pass-webhook.json", Build.State.PASS);
+    public void jenkinsWebHookPassCompleted() throws Exception {
+        assertState("jenkins-pass-completed-webhook.json", Build.State.PASS);
+    }
+
+    @Test
+    public void jenkinsWebHookFinishedCompleted() throws Exception {
+        assertState("jenkins-pass-finished-webhook.json", Build.State.PASS);
     }
 
     @Test

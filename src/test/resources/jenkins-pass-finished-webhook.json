@@ -1,0 +1,11 @@
+{
+    "build": {
+        "full_url": "http://host/job/job-name/211/",
+        "number": 211,
+        "phase": "COMPLETED",
+        "status": "SUCCESS",
+        "url": "job/job-name/211/"
+    },
+    "name": "job-name",
+    "url": "job/job-name/"
+}
