@@ -14,28 +14,13 @@
  * limitations under the License.
  */
 
-package com.nebhale.buildmonitor.support;
+CREATE TABLE build(
+  id SERIAL PRIMARY KEY,
+  created TIMESTAMP NOT NULL,
+  project VARCHAR(8) NOT NULL,
+  uri VARCHAR(256) NOT NULL,
+  state INTEGER NOT NULL,
 
-import org.springframework.cloud.service.ServiceInfo;
-
-final class NewRelicServiceInfo implements ServiceInfo {
-
-    private final String id;
-
-    private final String licenseKey;
-
-    NewRelicServiceInfo(String id, String licenseKey) {
-        this.id = id;
-        this.licenseKey = licenseKey;
-    }
-
-    @ServiceProperty
-    public String getId() {
-        return id;
-    }
-
-    @ServiceProperty
-    String getLicenseKey() {
-        return licenseKey;
-    }
-}
+  FOREIGN KEY(project) REFERENCES project(key) ON DELETE CASCADE,
+  CONSTRAINT build_uri UNIQUE (uri)
+);

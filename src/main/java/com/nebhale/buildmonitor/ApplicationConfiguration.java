@@ -16,6 +16,7 @@
 
 package com.nebhale.buildmonitor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.flyway.core.Flyway;
 import com.jolbox.bonecp.BoneCPDataSource;
 import org.postgresql.Driver;
@@ -28,8 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.convert.support.ConfigurableConversionService;
-import org.springframework.data.repository.support.DomainClassConverter;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import javax.sql.DataSource;
@@ -41,6 +41,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAutoConfiguration
 @EnableHypermediaSupport
+@EnableSpringDataWebSupport
 public class ApplicationConfiguration {
 
     /**
@@ -61,9 +62,7 @@ public class ApplicationConfiguration {
 
         BoneCPDataSource dataSource = new BoneCPDataSource();
         dataSource.setDriverClass(Driver.class.getCanonicalName());
-        dataSource.setJdbcUrl(jdbcUrl(serviceInfo));
-        dataSource.setUsername(serviceInfo.getUserName());
-        dataSource.setPassword(serviceInfo.getPassword());
+        dataSource.setJdbcUrl(serviceInfo.getJdbcUrl());
         dataSource.setMaxConnectionsPerPartition(2);
 
         return dataSource;
@@ -86,11 +85,6 @@ public class ApplicationConfiguration {
         return dataSource;
     }
 
-    @Bean
-    DomainClassConverter<ConfigurableConversionService> domainClassConverter(ConfigurableConversionService conversionService) {
-        return new DomainClassConverter<>(conversionService);
-    }
-
     @Bean(initMethod = "migrate")
     Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
@@ -100,9 +94,9 @@ public class ApplicationConfiguration {
         return flyway;
     }
 
-    private String jdbcUrl(PostgresqlServiceInfo serviceInfo) {
-        return String.format("jdbc:postgresql://%s:%d/%s", serviceInfo.getHost(), serviceInfo.getPort(),
-                serviceInfo.getUserName());
+    @Bean
+    ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
 }

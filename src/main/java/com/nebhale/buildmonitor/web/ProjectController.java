@@ -19,52 +19,89 @@ package com.nebhale.buildmonitor.web;
 import com.nebhale.buildmonitor.domain.Project;
 import com.nebhale.buildmonitor.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @ExposesResourceFor(Project.class)
 @RequestMapping("/projects")
-final class ProjectController extends AbstractCrudController<Project> {
+final class ProjectController extends AbstractController {
 
     private static final String MEDIA_TYPE = "application/vnd.nebhale.buildmonitor.project+json";
 
+    private final EntityLinks entityLinks;
+
+    private final ProjectRepository repository;
+
+    private final ProjectResourceAssembler resourceAssembler;
+
     @Autowired
-    ProjectController(EntityLinks entityLinks, ProjectResourceAssembler resourceAssembler,
-                      ProjectRepository repository) {
-        super(entityLinks, resourceAssembler, repository);
+    ProjectController(EntityLinks entityLinks, ProjectRepository repository,
+                      ProjectResourceAssembler resourceAssembler) {
+        this.entityLinks = entityLinks;
+        this.repository = repository;
+        this.resourceAssembler = resourceAssembler;
     }
 
-    @Override
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "", produces = MEDIA_TYPE)
     ResponseEntity<Void> create(@RequestBody Project project) {
-        return doCreate(project);
+        if (this.repository.exists(project.getKey())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        this.repository.saveAndFlush(project);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(this.entityLinks.linkForSingleResource(Project.class, project.getKey()).toUri());
+
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @Override
+    @Transactional(readOnly = true)
     @RequestMapping(method = RequestMethod.GET, value = "", produces = MEDIA_TYPE)
-    ResponseEntity<Set<Resource<Project>>> readAll() {
-        return doReadAll();
+    ResponseEntity<List<Resource<Project>>> readAll() {
+        List<Resource<Project>> resources = new ArrayList<>();
+        for (Project project : this.repository.findAll(new Sort("key"))) {
+            resources.add(this.resourceAssembler.toResource(project));
+        }
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    @Override
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = MEDIA_TYPE)
-    ResponseEntity<Resource<Project>> read(@PathVariable("id") Project project) {
-        return doRead(project);
+    @Transactional(readOnly = true)
+    @RequestMapping(method = RequestMethod.GET, value = "/{project}", produces = MEDIA_TYPE)
+    ResponseEntity<Resource<Project>> read(@PathVariable Project project) {
+        if (project == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(this.resourceAssembler.toResource(project), HttpStatus.OK);
     }
 
-    @Override
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    ResponseEntity<Void> delete(@PathVariable("id") Project project) {
-        return doDelete(project);
+    @Transactional
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{project}")
+    ResponseEntity<Void> delete(@PathVariable Project project) {
+        if (project == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        this.repository.delete(project);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

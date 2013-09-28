@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>http://localhost:8080/</string>
+	<string>http://build-monitor.cfapps.io/</string>
 	<key>followRedirect</key>
 	<true/>
 	<key>handleJSONPCallbacks</key>
@@ -14,9 +14,33 @@
 			<key>header</key>
 			<string>Content-Type</string>
 			<key>inUse</key>
-			<true/>
+			<false/>
 			<key>value</key>
 			<string>application/vnd.nebhale.buildmonitor.project+json</string>
+		</dict>
+		<dict>
+			<key>header</key>
+			<string>Accept</string>
+			<key>inUse</key>
+			<false/>
+			<key>value</key>
+			<string>application/vnd.nebhale.buildmonitor.project+json</string>
+		</dict>
+		<dict>
+			<key>header</key>
+			<string>Content-Type</string>
+			<key>inUse</key>
+			<false/>
+			<key>value</key>
+			<string>application/vnd.nebhale.buildmonitor.build+json</string>
+		</dict>
+		<dict>
+			<key>header</key>
+			<string>Accept</string>
+			<key>inUse</key>
+			<false/>
+			<key>value</key>
+			<string>application/vnd.nebhale.buildmonitor.build+json</string>
 		</dict>
 	</array>
 	<key>httpMethod</key>
@@ -26,7 +50,97 @@
 	<key>paramBodyUIChoice</key>
 	<integer>1</integer>
 	<key>parameters</key>
-	<array/>
+	<array>
+		<dict>
+			<key>inUse</key>
+			<false/>
+			<key>parameter</key>
+			<string>key</string>
+			<key>value</key>
+			<string>BLDR</string>
+		</dict>
+		<dict>
+			<key>inUse</key>
+			<false/>
+			<key>parameter</key>
+			<string>name</string>
+			<key>value</key>
+			<string>Java Buildpack Dependency Builder</string>
+		</dict>
+		<dict>
+			<key>inUse</key>
+			<false/>
+			<key>parameter</key>
+			<string>payload</string>
+			<key>value</key>
+			<string>{
+    "author_email": "bhale@gopivotal.com",
+    "author_name": "Ben Hale",
+    "branch": "master",
+    "build_url": "https://travis-ci.org/nebhale/test/builds/11764256",
+    "commit": "5f6ece05cadb67516cd8cc2999cfd74d8c85da05",
+    "committed_at": "2013-09-25T05:46:40Z",
+    "committer_email": "bhale@gopivotal.com",
+    "committer_name": "Ben Hale",
+    "compare_url": "https://github.com/nebhale/test/compare/6f6aeaa78489...5f6ece05cadb",
+    "config": {
+        ".result": "configured",
+        "language": "ruby",
+        "notifications": {
+            "webhooks": "http://ghic.localtunnel.me/projects/BMON/webhook"
+        },
+        "rvm": [
+            "1.9.3"
+        ]
+    },
+    "duration": 17,
+    "finished_at": "2013-09-25T05:47:52Z",
+    "id": 11764256,
+    "matrix": [
+        {
+            "author_email": "bhale@gopivotal.com",
+            "author_name": "Ben Hale",
+            "branch": "master",
+            "commit": "5f6ece05cadb67516cd8cc2999cfd74d8c85da05",
+            "committed_at": "2013-09-25T05:46:40Z",
+            "committer_email": "bhale@gopivotal.com",
+            "committer_name": "Ben Hale",
+            "compare_url": "https://github.com/nebhale/test/compare/6f6aeaa78489...5f6ece05cadb",
+            "config": {
+                ".result": "configured",
+                "language": "ruby",
+                "notifications": {
+                    "webhooks": "http://ghic.localtunnel.me/projects/BMON/webhook"
+                },
+                "rvm": "1.9.3"
+            },
+            "finished_at": "2013-09-25T05:47:52Z",
+            "id": 11764257,
+            "message": "Incremental commit. Please do not base any external work off of this commit.",
+            "number": "2.1",
+            "parent_id": 11764256,
+            "repository_id": 1201660,
+            "result": null,
+            "state": "finished",
+            "status": null
+        }
+    ],
+    "message": "Incremental commit. Please do not base any external work off of this commit.",
+    "number": "2",
+    "repository": {
+        "id": 1201660,
+        "name": "test",
+        "owner_name": "nebhale",
+        "url": "https://github.com/nebhale/test"
+    },
+    "result": 0,
+    "result_message": "Passed",
+    "started_at": "2013-09-25T05:47:35Z",
+    "status": 0,
+    "status_message": "Passed"
+}</string>
+		</dict>
+	</array>
 	<key>parametersType</key>
 	<integer>1</integer>
 	<key>presentBeforeChallenge</key>

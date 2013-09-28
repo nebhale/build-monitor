@@ -16,8 +16,6 @@
 
 package com.nebhale.buildmonitor.domain;
 
-import org.springframework.hateoas.Identifiable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
@@ -26,11 +24,11 @@ import javax.validation.constraints.Size;
  * A project who's build should be monitored
  */
 @Entity
-public final class Project implements Identifiable<String> {
+public final class Project {
 
     @Id
     @Size(min = 1, max = 8)
-    private volatile String id;
+    private volatile String key;
 
     @Size(min = 1, max = 64)
     private volatile String name;
@@ -38,18 +36,24 @@ public final class Project implements Identifiable<String> {
     Project() {
     }
 
-    public Project(String id, String name) {
-        this.id = id;
+    /**
+     * Creates a new instance
+     *
+     * @param key  the key of the project
+     * @param name the name of the project
+     */
+    public Project(String key, String name) {
+        this.key = key.toUpperCase();
         this.name = name;
     }
 
     /**
-     * Returns the id of the project
+     * Returns the key of the project
      *
-     * @return the id of the project
+     * @return the key of the project
      */
-    public String getId() {
-        return this.id;
+    public String getKey() {
+        return this.key;
     }
 
     /**

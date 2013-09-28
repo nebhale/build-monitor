@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.nebhale.buildmonitor.repository;
+package com.nebhale.buildmonitor.domain;
 
-import com.nebhale.buildmonitor.domain.Project;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.junit.Test;
 
-/**
- * Repository for working with {@link Project}s
- */
-public interface ProjectRepository extends JpaRepository<Project, String> {
+import static org.junit.Assert.assertEquals;
 
-    /**
-     * Returns all projects sorted by their key, ascending
-     *
-     * @return all projects sorted by their key, ascending
-     */
-//    List<Project> findAllOrderByKeyAsc();
+public final class ProjectTest {
 
+    @Test
+    public void test() {
+        Project project = new Project("test-key", "test-name");
+
+        assertEquals("TEST-KEY", project.getKey());
+        assertEquals("test-name", project.getName());
+    }
 }

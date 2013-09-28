@@ -24,25 +24,24 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.stereotype.Component;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-
 @Component
-final class ProjectResourceAssembler implements ResourceAssembler<Project, Resource<Project>> {
+final class BuildResourceAssembler implements ResourceAssembler<Build, Resource<Build>> {
 
     private final EntityLinks entityLinks;
 
     @Autowired
-    ProjectResourceAssembler(EntityLinks entityLinks) {
+    BuildResourceAssembler(EntityLinks entityLinks) {
         this.entityLinks = entityLinks;
     }
 
     @Override
-    public Resource<Project> toResource(Project project) {
-        Resource<Project> resource = new Resource<>(project);
+    public Resource<Build> toResource(Build build) {
+        Resource<Build> resource = new Resource<>(build);
 
-        resource.add(this.entityLinks.linkToSingleResource(Project.class, project.getKey()));
-        resource.add(this.entityLinks.linkFor(Build.class, project.getKey()).withRel("builds"));
-        resource.add(linkTo(WebHookController.class, project.getKey()).withRel("webhook"));
+        resource.add(this.entityLinks.linkFor(Build.class, build.getProject().getKey()).slash(build.getId()).withSelfRel
+                ());
+        resource.add(this.entityLinks.linkToSingleResource(Project.class, build.getProject().getKey()).withRel
+                ("project"));
 
         return resource;
     }
