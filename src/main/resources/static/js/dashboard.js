@@ -16,7 +16,24 @@
 
 /*global angular:false*/
 
-angular.module('BuildMonitor')
+angular.module('dashboard', ['ng', 'links', 'moment'])
+
+    .filter('stateIcon', function () {
+        'use strict';
+
+        return function (state) {
+            if ('PASS' === state) {
+                return 'icon-ok';
+            } else if ('FAIL' === state) {
+                return 'icon-remove';
+            } else if ('IN_PROGRESS' === state) {
+                return 'icon-spinner icon-spin';
+            }
+
+            return 'icon-question';
+        };
+    })
+
     .controller('ProjectsController', ['$scope', '$http', function ($scope, $http) {
         'use strict';
 
@@ -33,5 +50,24 @@ angular.module('BuildMonitor')
                 $scope.state = build ? build.state : 'UNKNOWN';
             }
         );
+
+    }])
+
+    .controller('BuildsController', ['$scope', '$http', '_', 'links', function ($scope, $http, _, links) {
+        'use strict';
+
+        $http.get(links.getLink($scope.project, 'builds')).success(function (page) {
+            $scope.builds = page.content;
+            $scope.$emit('build', $scope.builds[0]);
+        });
+
+    }])
+
+    .controller('LastBuildController', ['$scope', '$window', function ($scope, $window) {
+        'use strict';
+
+        $window.setInterval(function () {
+            $scope.$digest();
+        }, 60 * 1000);
 
     }]);

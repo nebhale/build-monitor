@@ -1,0 +1,9 @@
+{
+  "name": "build-monitor",
+  "dependencies": {
+    "angular": "~1.0.8",
+    "font-awesome": "~3.2.1",
+    "lodash": "~2.1.0",
+    "momentjs": "~2.2.1"
+  }
+}
