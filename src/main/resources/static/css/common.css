@@ -14,21 +14,44 @@
  * limitations under the License.
  */
 
-/*global angular:false*/
+html {
+    background-color: black;
+    border-color: white;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    height: 100%;
+}
 
-angular.module('BuildMonitor')
-    .filter('stateIcon', function () {
-        'use strict';
+body {
+    height: 100%;
+    margin: 0;
+}
 
-        return function (state) {
-            if ('PASS' === state) {
-                return 'icon-ok';
-            } else if ('FAIL' === state) {
-                return 'icon-remove';
-            } else if ('IN_PROGRESS' === state) {
-                return 'icon-spinner icon-spin';
-            }
+body > .projects {
+    height: auto;
+    min-height: 100%;
+}
 
-            return 'icon-question';
-        };
-    });
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: white;
+    text-decoration: none;
+}
+
+#footer {
+    clear: both;
+    font-size: .5em;
+    height: 1.5em;
+    margin-top: -2.5em;
+    padding-bottom: 1em;
+    padding-right: 1em;
+    position: relative;
+    text-align: right;
+    z-index: 10;
+}
+
+.projects {
+    height: 100%;
+}
