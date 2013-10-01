@@ -27,7 +27,9 @@
         <spring-hateoas.version>0.8.0.RELEASE</spring-hateoas.version>
         <spring-plugin.version>0.8.0.RELEASE</spring-plugin.version>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.7</java.version>
+        <spring.version>4.0.0.BUILD-SNAPSHOT</spring.version>
+        <tomcat.version>8.0.0-RC3</tomcat.version>
     </properties>
 
     <dependencies>
@@ -78,6 +80,10 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>cloudfoundry-connector</artifactId>
             <version>${spring-cloud.version}</version>
@@ -99,14 +105,6 @@
 
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>7</source>
-                    <target>7</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
@@ -121,7 +119,9 @@
         <repository>
             <id>spring-snapshots</id>
             <url>http://repo.spring.io/snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 

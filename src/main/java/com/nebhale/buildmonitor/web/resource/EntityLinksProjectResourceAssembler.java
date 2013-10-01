@@ -14,34 +14,40 @@
  * limitations under the License.
  */
 
-package com.nebhale.buildmonitor.web;
+package com.nebhale.buildmonitor.web.resource;
 
 import com.nebhale.buildmonitor.domain.Build;
 import com.nebhale.buildmonitor.domain.Project;
+import com.nebhale.buildmonitor.web.WebHookController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 @Component
-final class BuildResourceAssembler implements ResourceAssembler<Build, Resource<Build>> {
+final class EntityLinksProjectResourceAssembler implements ProjectResourceAssembler {
 
     private final EntityLinks entityLinks;
 
+    /**
+     * Creates an instance
+     *
+     * @param entityLinks used to build links
+     */
     @Autowired
-    BuildResourceAssembler(EntityLinks entityLinks) {
+    EntityLinksProjectResourceAssembler(EntityLinks entityLinks) {
         this.entityLinks = entityLinks;
     }
 
     @Override
-    public Resource<Build> toResource(Build build) {
-        Resource<Build> resource = new Resource<>(build);
+    public Resource<Project> toResource(Project project) {
+        Resource<Project> resource = new Resource<>(project);
 
-        resource.add(this.entityLinks.linkFor(Build.class, build.getProject().getKey()).slash(build.getId()).withSelfRel
-                ());
-        resource.add(this.entityLinks.linkToSingleResource(Project.class, build.getProject().getKey()).withRel
-                ("project"));
+        resource.add(this.entityLinks.linkToSingleResource(Project.class, project.getKey()));
+        resource.add(this.entityLinks.linkFor(Build.class, project.getKey()).withRel("builds"));
+        resource.add(linkTo(WebHookController.class, project.getKey()).withRel("webhook"));
 
         return resource;
     }

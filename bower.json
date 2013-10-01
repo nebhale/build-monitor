@@ -4,6 +4,7 @@
     "angular": "~1.0.8",
     "font-awesome": "~3.2.1",
     "lodash": "~2.1.0",
-    "momentjs": "~2.2.1"
+    "momentjs": "~2.2.1",
+    "stomp-websocket": "https://github.com/jmesnil/stomp-websocket.git#~v2.3.0"
   }
 }

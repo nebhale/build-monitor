@@ -19,6 +19,7 @@ package com.nebhale.buildmonitor.web;
 import com.nebhale.buildmonitor.domain.Build;
 import com.nebhale.buildmonitor.domain.Project;
 import com.nebhale.buildmonitor.repository.BuildRepository;
+import com.nebhale.buildmonitor.web.resource.BuildResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +36,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * Controller for accessing {@link Build}s
+ */
 @Controller
 @ExposesResourceFor(Build.class)
 @RequestMapping("/projects/{project}/builds")
-final class BuildController extends AbstractController {
+public final class BuildController {
 
     private static final String MEDIA_TYPE = "application/vnd.nebhale.buildmonitor.build+json";
 

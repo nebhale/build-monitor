@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.nebhale.buildmonitor.web;
+package com.nebhale.buildmonitor.web.resource;
 
+import com.nebhale.buildmonitor.web.BuildController;
+import com.nebhale.buildmonitor.web.ProjectController;
 import org.junit.Before;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.core.ControllerEntityLinks;

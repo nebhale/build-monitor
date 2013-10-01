@@ -38,6 +38,13 @@ angular.module('moment', [])
         };
     }]);
 
+angular.module('stomp', [])
+    .factory('Stomp', ['$window', function ($window) {
+        'use strict';
+
+        return $window.Stomp;
+    }]);
+
 angular.module('underscore', [])
     .factory('_', ['$window', function ($window) {
         'use strict';
@@ -51,7 +58,7 @@ angular.module('links', ['underscore'])
 
         return {
             getLink: function (entity, rel) {
-                return _.find(entity.links, { 'rel': rel }).href;
+                return _.find(entity.links, { 'rel': rel }).href.replace(/http:/, 'https:'); // TODO: Remove replace once Cloud Foundry uses x-forwarded-for properly
             }
         };
     }]);

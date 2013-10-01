@@ -16,7 +16,7 @@
 
 /*global angular:false*/
 
-angular.module('dashboard', ['ng', 'links', 'moment'])
+angular.module('dashboard', ['ng', 'links', 'moment', 'stomp'])
 
     .filter('stateIcon', function () {
         'use strict';
@@ -34,11 +34,36 @@ angular.module('dashboard', ['ng', 'links', 'moment'])
         };
     })
 
-    .controller('ProjectsController', ['$scope', '$http', function ($scope, $http) {
+    .controller('ProjectsController', ['$scope', '$http', '$window', 'Stomp', function ($scope, $http, $window, Stomp) {
         'use strict';
 
-        $http.get('/projects').success(function (projects) {
-            $scope.projects = projects;
+        function getWebSocketScheme(window) {
+            return window.location.protocol === 'https:' ? 'wss' : 'ws';
+        }
+
+        function getWebSocketUri(window) {
+            return getWebSocketScheme(window) + '://' + window.location.host + '/websocket';
+        }
+
+        $scope.stompClient = Stomp.client(getWebSocketUri($window));
+
+        $scope.stompClient.connect(null, null, function () {
+
+            $scope.projectsSubscription = $scope.stompClient.subscribe('/app/projects', function (message) {
+                $scope.$apply(function () {
+                    $scope.projects = JSON.parse(message.body);
+                });
+            });
+
+            $scope.$on('$destroy', function () {
+                $scope.projectsSubscription.unsubscribe();
+                $scope.stompClient.disconnect();
+            });
+
+            $http.get('/projects').success(function (projects) {
+                $scope.projects = projects;
+            });
+
         });
 
     }])
@@ -47,18 +72,35 @@ angular.module('dashboard', ['ng', 'links', 'moment'])
         'use strict';
 
         $scope.$on('build', function (event, build) {
-                $scope.state = build ? build.state : 'UNKNOWN';
-            }
-        );
+            $scope.state = build ? build.state : 'UNKNOWN';
+        });
 
     }])
 
-    .controller('BuildsController', ['$scope', '$http', '_', 'links', function ($scope, $http, _, links) {
+    .controller('BuildsController', ['$scope', '$http', 'links', function ($scope, $http, links) {
         'use strict';
 
-        $http.get(links.getLink($scope.project, 'builds')).success(function (page) {
-            $scope.builds = page.content;
-            $scope.$emit('build', $scope.builds[0]);
+        $scope.$watch('builds', function (builds) {
+            if (builds) {
+                $scope.$emit('build', builds[0]);
+            }
+        });
+
+        var buildsDestination = '/app/projects/' + $scope.project.key + '/builds';
+        $scope.buildSubscription = $scope.stompClient.subscribe(buildsDestination, function (message) {
+            $scope.$apply(function () {
+                $scope.builds = JSON.parse(message.body);
+            });
+        });
+
+        $scope.$on('$destroy', function () {
+            $scope.buildSubscription.unsubscribe();
+        });
+
+        $http.get(links.getLink($scope.project, 'builds')).success(function (builds) {
+            if (builds) {
+                $scope.builds = builds.content;
+            }
         });
 
     }])
