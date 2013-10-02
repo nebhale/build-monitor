@@ -129,8 +129,6 @@ public final class ProjectControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.key").value("TEST_KEY"))
                 .andExpect(jsonPath("$.name").value("Test Name"))
                 .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value("http://localhost/projects/TEST_KEY"))
-                .andExpect(jsonPath("$.links[?(@.rel==builds)].href[0]").value
-                        ("http://localhost/projects/TEST_KEY/builds"))
                 .andExpect(jsonPath("$.links[?(@.rel==webhook)].href[0]").value
                         ("http://localhost/projects/TEST_KEY/webhook"));
     }
@@ -157,7 +155,7 @@ public final class ProjectControllerTest extends AbstractControllerTest {
     public void deleteNotFound() throws Exception {
         this.mockMvc.perform(
                 delete("/projects/TEST_KEY")
-                    .accept(MEDIA_TYPE))
+                        .accept(MEDIA_TYPE))
                 .andExpect(status().isNotFound());
     }
 

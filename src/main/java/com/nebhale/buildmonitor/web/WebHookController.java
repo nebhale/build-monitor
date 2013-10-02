@@ -16,16 +16,17 @@
 
 package com.nebhale.buildmonitor.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nebhale.buildmonitor.domain.Build;
 import com.nebhale.buildmonitor.domain.Project;
 import com.nebhale.buildmonitor.repository.BuildRepository;
+import com.nebhale.buildmonitor.web.notify.BuildsChangedNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,27 +36,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Controller for accessing WebHooks
+ */
 @Controller
 @RequestMapping("/projects/{project}/webhook")
-final class WebHookController extends AbstractController {
+public final class WebHookController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final ObjectMapper objectMapper;
+    private final BuildsChangedNotifier buildsChangedNotifier;
 
     private final BuildRepository repository;
 
     @Autowired
-    WebHookController(ObjectMapper objectMapper, BuildRepository repository) {
-        this.objectMapper = objectMapper;
+    WebHookController(BuildsChangedNotifier buildsChangedNotifier, BuildRepository repository) {
+        this.buildsChangedNotifier = buildsChangedNotifier;
         this.repository = repository;
     }
 
+    @Transactional
     @SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST, value = "", params = "payload")
-    ResponseEntity<Void> travisWebHook(@PathVariable Project project, @RequestParam("payload") String payloadString)
+    ResponseEntity<Void> travisWebHook(@PathVariable Project project, @RequestParam("payload") Map<String, ?> payload)
             throws IOException {
-        return webHook(project, payloadString, new PayloadParser() {
+        return webHook(project, payload, new PayloadParser() {
 
             @Override
             public String getUri(Map<String, ?> payload) {
@@ -77,11 +82,12 @@ final class WebHookController extends AbstractController {
         });
     }
 
+    @Transactional
     @SuppressWarnings("unchecked")
     @RequestMapping(method = RequestMethod.POST, value = "")
-    ResponseEntity<Void> jenkinsWebHook(@PathVariable Project project, @RequestBody String payloadString) throws
+    ResponseEntity<Void> jenkinsWebHook(@PathVariable Project project, @RequestBody Map<String, ?> payload) throws
             IOException {
-        return webHook(project, payloadString, new PayloadParser() {
+        return webHook(project, payload, new PayloadParser() {
 
             @Override
             public String getUri(Map<String, ?> payload) {
@@ -118,15 +124,13 @@ final class WebHookController extends AbstractController {
     }
 
     @SuppressWarnings("unchecked")
-    private ResponseEntity<Void> webHook(Project project, String payloadString, PayloadParser payloadParser) throws
-            IOException {
-        this.logger.debug(payloadString);
+    private ResponseEntity<Void> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) {
+        this.logger.debug(payload.toString());
 
         if (project == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Map<String, ?> payload = this.objectMapper.readValue(payloadString, Map.class);
         String uri = payloadParser.getUri(payload);
         Build.State state = payloadParser.getState(payload);
 
@@ -141,6 +145,7 @@ final class WebHookController extends AbstractController {
 
         this.repository.saveAndFlush(build);
 
+        this.buildsChangedNotifier.buildsChanged(project);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -18,6 +18,8 @@ package com.nebhale.buildmonitor.web;
 
 import com.nebhale.buildmonitor.domain.Project;
 import com.nebhale.buildmonitor.repository.ProjectRepository;
+import com.nebhale.buildmonitor.web.notify.ProjectsChangedNotifier;
+import com.nebhale.buildmonitor.web.resource.ProjectResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityLinks;
@@ -36,23 +38,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for accessing {@link Project}s
+ */
 @Controller
 @ExposesResourceFor(Project.class)
 @RequestMapping("/projects")
-final class ProjectController extends AbstractController {
+public final class ProjectController {
 
     private static final String MEDIA_TYPE = "application/vnd.nebhale.buildmonitor.project+json";
 
     private final EntityLinks entityLinks;
+
+    private final ProjectsChangedNotifier projectsChangedNotifier;
 
     private final ProjectRepository repository;
 
     private final ProjectResourceAssembler resourceAssembler;
 
     @Autowired
-    ProjectController(EntityLinks entityLinks, ProjectRepository repository,
+    ProjectController(EntityLinks entityLinks, ProjectsChangedNotifier projectsChangedNotifier, ProjectRepository repository,
                       ProjectResourceAssembler resourceAssembler) {
         this.entityLinks = entityLinks;
+        this.projectsChangedNotifier = projectsChangedNotifier;
         this.repository = repository;
         this.resourceAssembler = resourceAssembler;
     }
@@ -69,6 +77,7 @@ final class ProjectController extends AbstractController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(this.entityLinks.linkForSingleResource(Project.class, project.getKey()).toUri());
 
+        this.projectsChangedNotifier.projectsChanged();
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -101,6 +110,7 @@ final class ProjectController extends AbstractController {
         }
 
         this.repository.delete(project);
+        this.projectsChangedNotifier.projectsChanged();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

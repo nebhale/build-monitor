@@ -14,30 +14,27 @@
  * limitations under the License.
  */
 
-package com.nebhale.buildmonitor.web;
+package com.nebhale.buildmonitor.web.resource;
 
-import com.nebhale.buildmonitor.domain.Build;
 import com.nebhale.buildmonitor.domain.Project;
 import org.junit.Test;
 import org.springframework.hateoas.Resource;
 
 import static org.junit.Assert.assertEquals;
 
-public final class BuildResourceAssemblerTest extends AbstractResourceAssemblerTest {
+public final class EntityLinksProjectResourceAssemblerTest extends AbstractResourceAssemblerTest {
 
     private final Project project = new Project("test-key", "test-name");
 
-    private final Build build = new Build(this.project, "test-uri", Build.State.PASS);
-
-    private final BuildResourceAssembler resourceAssembler = new BuildResourceAssembler(this.entityLinks);
+    private final EntityLinksProjectResourceAssembler resourceAssembler = new EntityLinksProjectResourceAssembler(this.entityLinks);
 
     @Test
     public void toResource() throws Exception {
-        Resource<Build> resource = this.resourceAssembler.toResource(this.build);
+        Resource<Project> resource = this.resourceAssembler.toResource(this.project);
 
-        assertEquals(this.build, resource.getContent());
-        assertEquals("http://localhost/projects/TEST-KEY/builds", resource.getLink("self").getHref());
-        assertEquals("http://localhost/projects/TEST-KEY", resource.getLink("project").getHref());
+        assertEquals(this.project, resource.getContent());
+        assertEquals("http://localhost/projects/TEST-KEY", resource.getLink("self").getHref());
+        assertEquals("http://localhost/projects/TEST-KEY/webhook", resource.getLink("webhook").getHref());
     }
 
 }

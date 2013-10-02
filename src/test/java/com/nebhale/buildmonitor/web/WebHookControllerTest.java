@@ -25,11 +25,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.util.StreamUtils;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringWriter;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
@@ -173,18 +174,13 @@ public final class WebHookControllerTest extends AbstractControllerTest {
     }
 
     private String read(String filename) throws IOException {
-        Reader in = null;
-        StringWriter out = null;
+        InputStream in = null;
 
         try {
-            in = new FileReader("src/test/resources/" + filename);
-            out = new StringWriter();
-
-            IoUtils.copy(in, out);
-
-            return out.toString();
+            in = new FileInputStream("src/test/resources/" + filename);
+            return StreamUtils.copyToString(in, Charset.forName("UTF-8"));
         } finally {
-            IoUtils.closeQuietly(in, out);
+            IoUtils.closeQuietly(in);
         }
     }
 

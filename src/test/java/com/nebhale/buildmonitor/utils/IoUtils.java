@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 
 public final class IoUtils {
 
@@ -40,15 +38,6 @@ public final class IoUtils {
                     LOGGER.debug("Unable to close");
                 }
             }
-        }
-    }
-
-    public static void copy(Reader in, Writer out) throws IOException {
-        char[] buffer = new char[8192];
-        int length;
-
-        while ((length = in.read(buffer)) != -1) {
-            out.write(buffer, 0, length);
         }
     }
 

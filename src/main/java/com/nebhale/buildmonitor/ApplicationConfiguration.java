@@ -16,7 +16,6 @@
 
 package com.nebhale.buildmonitor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.flyway.core.Flyway;
 import com.jolbox.bonecp.BoneCPDataSource;
 import org.postgresql.Driver;
@@ -31,6 +30,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.messaging.simp.config.EnableWebSocketMessageBroker;
+import org.springframework.messaging.simp.config.MessageBrokerConfigurer;
+import org.springframework.messaging.simp.config.StompEndpointRegistry;
+import org.springframework.messaging.simp.config.WebSocketMessageBrokerConfigurer;
 
 import javax.sql.DataSource;
 
@@ -74,15 +78,10 @@ public class ApplicationConfiguration {
         return new CloudFactory().getCloud();
     }
 
-    @Bean(destroyMethod = "close")
+    @Bean
     @Profile("default")
     DataSource defaultDataSource() {
-
-        BoneCPDataSource dataSource = new BoneCPDataSource();
-        dataSource.setDriverClass(Driver.class.getCanonicalName());
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost/build_monitor");
-
-        return dataSource;
+        return new SimpleDriverDataSource(new Driver(), "jdbc:postgresql://localhost/build_monitor");
     }
 
     @Bean(initMethod = "migrate")
@@ -93,9 +92,19 @@ public class ApplicationConfiguration {
         return flyway;
     }
 
-    @Bean
-    ObjectMapper objectMapper() {
-        return new ObjectMapper();
+    @Configuration
+    @EnableWebSocketMessageBroker
+    static class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+        @Override
+        public void registerStompEndpoints(StompEndpointRegistry registry) {
+            registry.addEndpoint("/websocket");
+        }
+
+        @Override
+        public void configureMessageBroker(MessageBrokerConfigurer configurer) {
+            configurer.setAnnotationMethodDestinationPrefixes("/app");
+        }
     }
 
 }
