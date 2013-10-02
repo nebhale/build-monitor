@@ -100,8 +100,12 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
     .controller('LastBuildController', ['$scope', '$window', function ($scope, $window) {
         'use strict';
 
-        $window.setInterval(function () {
+        $scope.intervalId = $window.setInterval(function () {
             $scope.$digest();
         }, 60 * 1000);
+
+        $scope.$on('$destroy', function () {
+            $window.clearInterval($scope.intervalId);
+        });
 
     }]);
