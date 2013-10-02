@@ -158,6 +158,19 @@ public final class WebHookControllerTest extends AbstractControllerTest {
         assertState("jenkins-unknown-status-webhook.json", Build.State.UNKNOWN);
     }
 
+    @Test
+    public void travisWebHookIgnorePullRequest() throws Exception{
+        this.projectRepository.saveAndFlush(this.project);
+
+        this.mockMvc.perform(
+                post("/projects/TEST-KEY/webhook")
+                        .contentType(MEDIA_TYPE)
+                        .param("payload", read("travis-ignore-pull-request-webhook.json")))
+                .andExpect(status().isOk());
+
+        assertEquals(0, countRowsInTable("build"));
+    }
+
     private void assertState(String filename, Build.State state) throws Exception {
         this.projectRepository.saveAndFlush(this.project);
 
