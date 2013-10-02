@@ -16,6 +16,8 @@
 
 package com.nebhale.buildmonitor.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nebhale.buildmonitor.domain.Build;
 import com.nebhale.buildmonitor.domain.Project;
 import com.nebhale.buildmonitor.repository.BuildRepository;
@@ -55,17 +57,12 @@ public final class WebHookController {
         this.repository = repository;
     }
 
-    @Transactional
     @SuppressWarnings("unchecked")
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "", params = "payload")
     ResponseEntity<Void> travisWebHook(@PathVariable Project project, @RequestParam("payload") Map<String, ?> payload)
             throws IOException {
         return webHook(project, payload, new PayloadParser() {
-
-            @Override
-            public String getUri(Map<String, ?> payload) {
-                return (String) payload.get("build_url");
-            }
 
             @Override
             public Build.State getState(Map<String, ?> payload) {
@@ -79,20 +76,27 @@ public final class WebHookController {
                     return Build.State.UNKNOWN;
                 }
             }
+
+            @Override
+            public String getUri(Map<String, ?> payload) {
+                return (String) payload.get("build_url");
+            }
+
+            @Override
+            public Boolean shouldProcess(Map<String, ?> payload) {
+                String compareUrl = (String) payload.get("compare_url");
+
+                return compareUrl == null || !compareUrl.matches(".*/pull/[\\d]+");
+            }
         });
     }
 
-    @Transactional
     @SuppressWarnings("unchecked")
+    @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "")
     ResponseEntity<Void> jenkinsWebHook(@PathVariable Project project, @RequestBody Map<String, ?> payload) throws
             IOException {
         return webHook(project, payload, new PayloadParser() {
-
-            @Override
-            public String getUri(Map<String, ?> payload) {
-                return getBuild(payload).get("full_url");
-            }
 
             @Override
             public Build.State getState(Map<String, ?> payload) {
@@ -116,6 +120,16 @@ public final class WebHookController {
                 }
             }
 
+            @Override
+            public String getUri(Map<String, ?> payload) {
+                return getBuild(payload).get("full_url");
+            }
+
+            @Override
+            public Boolean shouldProcess(Map<String, ?> payload) {
+                return true;
+            }
+
             private Map<String, String> getBuild(Map<String, ?> payload) {
                 return (Map<String, String>) payload.get("build");
             }
@@ -123,9 +137,11 @@ public final class WebHookController {
         });
     }
 
-    @SuppressWarnings("unchecked")
-    private ResponseEntity<Void> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) {
-        this.logger.debug(payload.toString());
+    private ResponseEntity<Void> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) throws
+            JsonProcessingException {
+        if (this.logger.isDebugEnabled()) {
+            this.logger.debug(new ObjectMapper().writeValueAsString(payload));
+        }
 
         if (project == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -136,24 +152,30 @@ public final class WebHookController {
 
         this.logger.info("Received {} webhook for {} with status {}", project.getKey(), uri, state);
 
-        Build build = this.repository.findByUri(uri);
-        if (build == null) {
-            build = new Build(project, uri, state);
+        if (payloadParser.shouldProcess(payload)) {
+            Build build = this.repository.findByUri(uri);
+            if (build == null) {
+                build = new Build(project, uri, state);
+            } else {
+                build.setState(state);
+            }
+
+            this.repository.saveAndFlush(build);
+            this.buildsChangedNotifier.buildsChanged(project);
         } else {
-            build.setState(state);
+            this.logger.info("Payload ignored");
         }
 
-        this.repository.saveAndFlush(build);
-
-        this.buildsChangedNotifier.buildsChanged(project);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private static interface PayloadParser {
 
+        Build.State getState(Map<String, ?> payload);
+
         String getUri(Map<String, ?> payload);
 
-        Build.State getState(Map<String, ?> payload);
+        Boolean shouldProcess(Map<String, ?> payload);
 
     }
 

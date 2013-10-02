@@ -1,0 +1,7 @@
+{
+    "branch": "master",
+    "build_url": "https://host/org/repo/builds/11894745",
+    "compare_url": "https://host/org/repo/pull/15",
+    "status": 1,
+    "status_message": "Broken"
+}
