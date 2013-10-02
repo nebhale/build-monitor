@@ -17,7 +17,7 @@
 /*global angular:false*/
 
 angular.module('management', ['ng', 'links', 'underscore'])
-    .controller('ProjectsController', ['$scope', '$http', '_', function ($scope, $http, _) {
+    .controller('ProjectsController', ['$scope', '$http', '_', 'links', function ($scope, $http, _, links) {
         'use strict';
 
         $http.get('/projects', {'Accept': 'application/vnd.nebhale.buildmonitor.project+json'})
@@ -28,12 +28,13 @@ angular.module('management', ['ng', 'links', 'underscore'])
         $scope.create = function (newProject) {
             $http.post('/projects', newProject, {'Content-Type': 'application/vnd.nebhale.buildmonitor.project+json'})
                 .success(function (data, status, headers) {
-                    var location = headers('Location').replace(/http:/, 'https:'); // TODO: Remove replace once Cloud Foundry uses x-forwarded-for properly
+                    var location = links.normalizeScheme(headers('Location'));
 
                     $http.get(location).success(function (project) {
                         $scope.projects.push(project);
                         $scope.projects = _.sortBy($scope.projects, 'key');
                     });
+
                 });
         };
 

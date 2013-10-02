@@ -60,12 +60,20 @@ angular.module('underscore', [])
     }]);
 
 angular.module('links', ['underscore'])
-    .factory('links', ['_', function (_) {
+    .factory('links', ['$window', '_', function ($window, _) {
         'use strict';
+
+        // TODO: Remove replace once Cloud Foundry uses x-forwarded-for properly
+        function normalizeScheme(href) {
+            return $window.location.protocol === 'https' ? href.replace(/http:/, 'https:') : href;
+        }
 
         return {
             getLink: function (entity, rel) {
-                return _.find(entity.links, { 'rel': rel }).href.replace(/http:/, 'https:'); // TODO: Remove replace once Cloud Foundry uses x-forwarded-for properly
-            }
+                return normalizeScheme(_.find(entity.links, { 'rel': rel }).href);
+            },
+
+            normalizeScheme: normalizeScheme
         };
+
     }]);
