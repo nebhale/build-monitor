@@ -16,7 +16,7 @@
 
 /*global angular:false*/
 
-angular.module('dashboard', ['ng', 'links', 'moment', 'stomp'])
+angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
     .filter('stateIcon', function () {
         'use strict';
@@ -34,18 +34,10 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'stomp'])
         };
     })
 
-    .controller('ProjectsController', ['$scope', '$http', '$window', 'Stomp', function ($scope, $http, $window, Stomp) {
+    .controller('ProjectsController', ['$scope', '$http', '$window', 'SockJS', 'Stomp', function ($scope, $http, $window, SockJS, Stomp) {
         'use strict';
 
-        function getWebSocketScheme(window) {
-            return window.location.protocol === 'https:' ? 'wss' : 'ws';
-        }
-
-        function getWebSocketUri(window) {
-            return getWebSocketScheme(window) + '://' + window.location.host + '/websocket';
-        }
-
-        $scope.stompClient = Stomp.client(getWebSocketUri($window));
+        $scope.stompClient = Stomp.over(new SockJS('/stomp'));
 
         $scope.stompClient.connect(null, null, function () {
 
