@@ -38,6 +38,13 @@ angular.module('moment', [])
         };
     }]);
 
+angular.module('sockjs', [])
+    .factory('SockJS', ['$window', function ($window) {
+        'use strict';
+
+        return $window.SockJS;
+    }]);
+
 angular.module('stomp', [])
     .factory('Stomp', ['$window', function ($window) {
         'use strict';
