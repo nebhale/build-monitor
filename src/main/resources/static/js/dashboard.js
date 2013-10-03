@@ -34,31 +34,52 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         };
     })
 
-    .controller('ProjectsController', ['$scope', '$http', '$window', 'SockJS', 'Stomp', function ($scope, $http, $window, SockJS, Stomp) {
-        'use strict';
+    .controller('ProjectsController', ['$scope', '$http', '$log', '$timeout', 'SockJS', 'Stomp',
+        function ($scope, $http, $log, $timeout, SockJS, Stomp) {
+            'use strict';
 
-        $scope.stompClient = Stomp.over(new SockJS('/stomp'));
+            var DELAY_IN_SECONDS = 60;
 
-        $scope.stompClient.connect(null, null, function () {
-
-            $scope.projectsSubscription = $scope.stompClient.subscribe('/app/projects', function (message) {
-                $scope.$apply(function () {
-                    $scope.projects = JSON.parse(message.body);
-                });
-            });
+            function createSocket() {
+                $scope.socket = $scope.socket = new SockJS('/stomp');
+            }
 
             $scope.$on('$destroy', function () {
                 $scope.projectsSubscription.unsubscribe();
                 $scope.stompClient.disconnect();
             });
 
-            $http.get('/projects').success(function (projects) {
-                $scope.projects = projects;
+            $scope.$watch('stompClient', function (stompClient) {
+                if (stompClient) {
+                    stompClient.connect(undefined, undefined, function () {
+
+                        $scope.projectsSubscription = $scope.stompClient.subscribe('/app/projects', function (message) {
+                            $scope.$apply(function () {
+                                $scope.projects = JSON.parse(message.body);
+                            });
+                        });
+
+                        $http.get('/projects').success(function (projects) {
+                            $scope.projects = projects;
+                        });
+
+                    }, function () {
+                        $log.warn('Connection lost.  Reconnecting in ' + DELAY_IN_SECONDS + ' seconds');
+                        $timeout(createSocket, DELAY_IN_SECONDS * 1000);
+                    });
+                }
             });
 
-        });
+            $scope.$watch('socket', function (socket) {
+                if (socket) {
+                    $scope.stompClient = Stomp.over(socket);
+                    $scope.stompClient.debug = undefined;
+                }
+            });
 
-    }])
+            createSocket();
+
+        }])
 
     .controller('ProjectController', ['$scope', function ($scope) {
         'use strict';
@@ -72,21 +93,24 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
     .controller('BuildsController', ['$scope', '$http', 'links', function ($scope, $http, links) {
         'use strict';
 
+        function getDestination() {
+            return '/app/projects/' + $scope.project.key + '/builds';
+        }
+
+        $scope.$on('$destroy', function () {
+            $scope.buildSubscription.unsubscribe();
+        });
+
         $scope.$watch('builds', function (builds) {
             if (builds) {
                 $scope.$emit('build', builds[0]);
             }
         });
 
-        var buildsDestination = '/app/projects/' + $scope.project.key + '/builds';
-        $scope.buildSubscription = $scope.stompClient.subscribe(buildsDestination, function (message) {
+        $scope.buildSubscription = $scope.stompClient.subscribe(getDestination(), function (message) {
             $scope.$apply(function () {
                 $scope.builds = JSON.parse(message.body);
             });
-        });
-
-        $scope.$on('$destroy', function () {
-            $scope.buildSubscription.unsubscribe();
         });
 
         $http.get(links.getLink($scope.project, 'builds')).success(function (builds) {
@@ -97,15 +121,21 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
     }])
 
-    .controller('LastBuildController', ['$scope', '$window', function ($scope, $window) {
+    .controller('LastBuildController', ['$scope', '$timeout', function ($scope, $timeout) {
         'use strict';
 
-        $scope.intervalId = $window.setInterval(function () {
-            $scope.$digest();
-        }, 60 * 1000);
+        var DELAY_IN_SECONDS = 60;
+
+        function refresh() {
+            $scope.timeout = $timeout(function () {
+                $scope.$digest();
+            }, DELAY_IN_SECONDS * 1000).then(refresh);
+        }
 
         $scope.$on('$destroy', function () {
-            $window.clearInterval($scope.intervalId);
+            $timeout.cancel($scope.timeout);
         });
+
+        refresh();
 
     }]);

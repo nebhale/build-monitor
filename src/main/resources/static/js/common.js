@@ -65,7 +65,7 @@ angular.module('links', ['underscore'])
 
         // TODO: Remove replace once Cloud Foundry uses x-forwarded-for properly
         function normalizeScheme(href) {
-            return $window.location.protocol === 'https' ? href.replace(/http:/, 'https:') : href;
+            return $window.location.protocol === 'https:' ? href.replace(/http:/, 'https:') : href;
         }
 
         return {
