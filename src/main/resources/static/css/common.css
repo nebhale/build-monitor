@@ -40,18 +40,42 @@ a:active {
     text-decoration: none;
 }
 
-#footer {
+.footer {
     clear: both;
-    font-size: .5em;
-    height: 1.5em;
-    margin-top: -2.5em;
-    padding-bottom: 1em;
-    padding-right: 1em;
+    height: 56px;
+    margin-top: -72px;
+    padding-top: 16px;
     position: relative;
-    text-align: right;
     z-index: 10;
+}
+
+.page-flip-link {
+    font-size: .5em;
+    padding-bottom: 1em;
+    padding-top: 30px;
+    padding-right: 1em;
+    text-align: right;
 }
 
 .projects {
     height: 100%;
+}
+
+.major,
+.fail {
+    background-color: red;
+}
+
+.minor,
+.in_progress {
+    background-color: orange;
+}
+
+.good,
+.pass {
+    background-color: green;
+}
+
+.unknown {
+    background-color: grey;
 }
