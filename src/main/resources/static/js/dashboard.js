@@ -34,6 +34,22 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         };
     })
 
+    .filter('severity', function () {
+        'use strict';
+
+        return function (severity) {
+            if ('good' === severity) {
+                return 'good';
+            } else if ('minor' === severity) {
+                return 'minor';
+            } else if ('major' === severity) {
+                return 'major';
+            }
+
+            return 'unknown';
+        };
+    })
+
     .controller('ProjectsController', ['$scope', '$http', '$log', '$timeout', 'SockJS', 'Stomp',
         function ($scope, $http, $log, $timeout, SockJS, Stomp) {
             'use strict';
@@ -126,16 +142,42 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_SECONDS = 60;
 
+        $scope.$on('$destroy', function () {
+            $timeout.cancel($scope.timeout);
+        });
+
         function refresh() {
             $scope.timeout = $timeout(function () {
                 $scope.$digest();
             }, DELAY_IN_SECONDS * 1000).then(refresh);
         }
 
+        refresh();
+
+    }])
+
+    .controller('GitHubStatusController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+        'use strict';
+
+        var DELAY_IN_MINUTES = 5;
+
+        var GITHUB_STATUS_URI = 'https://status.github.com/api/status.json?callback=JSON_CALLBACK';
+
+        function getState() {
+            $http.jsonp(GITHUB_STATUS_URI).success(function (payload) {
+                $scope.state = payload.status;
+            });
+        }
+
         $scope.$on('$destroy', function () {
             $timeout.cancel($scope.timeout);
         });
 
+        function refresh() {
+            $scope.timeout = $timeout(getState(), DELAY_IN_MINUTES * 60 * 1000).then(refresh);
+        }
+
         refresh();
+        getState();
 
     }]);

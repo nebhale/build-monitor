@@ -48,8 +48,9 @@
     </div>
 </div>
 
-<div id="footer">
-    <a href="management.html">Manage</a>
+<div class="footer">
+    <div class="status" ng-class="state | severity" ng-controller="GitHubStatusController">GitHub</div>
+    <div class="page-flip-link"><a href="management.html">Manage</a></div>
 </div>
 
 </body>
