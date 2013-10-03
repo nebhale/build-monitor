@@ -156,6 +156,20 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
     }])
 
+    .controller('BuildController', ['$scope', function ($scope) {
+        'use strict';
+
+        var MINIMUM_OPACITY = 0.3;
+
+        $scope.fade = function (index) {
+            var increment = (1 - MINIMUM_OPACITY) / $scope.builds.length;
+            var opacity = 1 - (index * increment);
+
+            return {'opacity': opacity };
+        };
+
+    }])
+
     .controller('GitHubStatusController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
         'use strict';
 
