@@ -49,7 +49,8 @@
 </div>
 
 <div class="footer">
-    <div class="status" ng-class="state | severity" ng-controller="GitHubStatusController">GitHub</div>
+    <div class="status" ng-class="connectionState | stateClass">Build Monitor</div>
+    <div class="status" ng-class="state | stateClass" ng-controller="GitHubStatusController">GitHub</div>
     <div class="page-flip-link"><a href="management.html">Manage</a></div>
 </div>
 

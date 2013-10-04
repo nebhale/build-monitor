@@ -34,15 +34,15 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         };
     })
 
-    .filter('severity', function () {
+    .filter('stateClass', function () {
         'use strict';
 
-        return function (severity) {
-            if ('good' === severity) {
+        return function (state) {
+            if ('good' === state || 'up' === state) {
                 return 'good';
-            } else if ('minor' === severity) {
+            } else if ('minor' === state) {
                 return 'minor';
-            } else if ('major' === severity) {
+            } else if ('major' === state || 'down' === state) {
                 return 'major';
             }
 
@@ -50,8 +50,8 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         };
     })
 
-    .controller('ProjectsController', ['$scope', '$http', '$log', '$timeout', 'SockJS', 'Stomp',
-        function ($scope, $http, $log, $timeout, SockJS, Stomp) {
+    .controller('ProjectsController', ['$scope', '$http', '$log', '$rootScope', '$timeout', 'SockJS', 'Stomp',
+        function ($scope, $http, $log, $rootScope, $timeout, SockJS, Stomp) {
             'use strict';
 
             var DELAY_IN_SECONDS = 60;
@@ -69,6 +69,10 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
                 if (stompClient) {
                     stompClient.connect(undefined, undefined, function () {
 
+                        $scope.$apply(function () {
+                            $rootScope.connectionState = 'up';
+                        });
+
                         $scope.projectsSubscription = $scope.stompClient.subscribe('/app/projects', function (message) {
                             $scope.$apply(function () {
                                 $scope.projects = JSON.parse(message.body);
@@ -80,6 +84,11 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
                         });
 
                     }, function () {
+
+                        $scope.$apply(function () {
+                            $rootScope.connectionState = 'down';
+                        });
+
                         $log.warn('Connection lost.  Reconnecting in ' + DELAY_IN_SECONDS + ' seconds');
                         $timeout(createSocket, DELAY_IN_SECONDS * 1000);
                     });
