@@ -9,7 +9,7 @@ This project is a self-hostable application that provides a dashboard for build 
 The application stores its internal data model in a [PostgreSQL][] database.  This database needs to be provisioned before the application is started, but the application manages the creation and modification of the schemas itself so no other setup is needed.  Since the application is designed to work in Cloud Foundry, it is highly recommended that you use a database-as-a-service provided by Cloud Foundry.
 
 ### Java, Maven
-The application is written and Java and packaged as a self executable JAR file.  This enables it to run in anywhere that Java is available.  Building the application (required for deployment) requires [Maven][].
+The application is written in Java and packaged as a self executable JAR file.  This enables it to run in anywhere that Java is available.  Building the application (required for deployment) requires [Maven][].
 
 ### WebSocket Capable Browser
 The application uses WebSockets to keep itself up to date while running.  In order to take advantage of this, you need to use a WebSockets capable browser.  To find out if your browser is WebSocket capable check [caniuse.com][].
