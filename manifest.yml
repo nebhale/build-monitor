@@ -1,7 +1,7 @@
 ---
 applications:
 - name: build-monitor
-  memory: 768M
+  memory: 512M
   instances: 1
   path: target/build-monitor.jar
   buildpack: https://github.com/cloudfoundry/java-buildpack

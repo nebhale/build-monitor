@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-html {
+body {
     background-color: black;
     border-color: white;
     color: white;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    height: 100%;
-}
-
-body {
     height: 100%;
     margin: 0;
 }

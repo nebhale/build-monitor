@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-CREATE TABLE build(
-  id SERIAL PRIMARY KEY,
-  created TIMESTAMP NOT NULL,
-  project VARCHAR(8) NOT NULL,
-  uri VARCHAR(256) NOT NULL,
-  state INTEGER NOT NULL,
+CREATE TABLE build (
+  id      SERIAL PRIMARY KEY,
+  created TIMESTAMP    NOT NULL,
+  project VARCHAR(8)   NOT NULL,
+  uri     VARCHAR(256) NOT NULL,
+  state   INTEGER      NOT NULL,
 
-  FOREIGN KEY(project) REFERENCES project(key) ON DELETE CASCADE,
+  FOREIGN KEY (project) REFERENCES project (key) ON DELETE CASCADE,
   CONSTRAINT build_uri UNIQUE (uri)
 );

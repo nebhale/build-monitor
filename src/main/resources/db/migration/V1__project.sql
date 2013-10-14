@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-CREATE TABLE project(
-  key VARCHAR(8) PRIMARY KEY,
+CREATE TABLE project (
+  key  VARCHAR(8) PRIMARY KEY,
   name VARCHAR(64) NOT NULL
 );
