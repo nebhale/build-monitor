@@ -1,0 +1,6 @@
+{
+    "branch": "non-master",
+    "build_url": "https://host/org/repo/builds/11894745",
+    "status": 0,
+    "status_message": "Passed"
+}

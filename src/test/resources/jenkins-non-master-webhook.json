@@ -3,10 +3,10 @@
         "full_url": "http://host/job/job-name/211/",
         "number": 211,
         "parameters": {
-            "branch": "master"
+            "branch": "non-master"
         },
         "phase": "COMPLETED",
-        "status": "LOKI",
+        "status": "SUCCESS",
         "url": "job/job-name/211/"
     },
     "name": "job-name",

@@ -47,11 +47,6 @@ public abstract class AbstractControllerTest extends AbstractTransactionalJUnit4
         this.mockMvc = webAppContextSetup(this.webApplicationContext).build();
     }
 
-    @Before
-    public final void clearDatabase() {
-        deleteFromTables("project");
-    }
-
     protected final String toJson(String... pairs) {
         StringBuilder sb = new StringBuilder("{ ");
 
