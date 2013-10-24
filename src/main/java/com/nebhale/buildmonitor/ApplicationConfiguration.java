@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.messaging.simp.config.EnableWebSocketMessageBroker;
 import org.springframework.messaging.simp.config.MessageBrokerConfigurer;
 import org.springframework.messaging.simp.config.StompEndpointRegistry;
@@ -79,15 +78,10 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    @Profile("default")
-    DataSource defaultDataSource() {
-        return new SimpleDriverDataSource(new Driver(), "jdbc:postgresql://localhost/build_monitor");
-    }
-
-    @Bean(initMethod = "migrate")
     Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
+        flyway.migrate();
 
         return flyway;
     }

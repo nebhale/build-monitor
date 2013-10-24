@@ -51,10 +51,17 @@ public final class WebHookController {
 
     private final BuildRepository repository;
 
+    private final JenkinsPayloadParser jenkinsPayloadParser;
+
+    private final TravisPayloadParser travisPayloadParser;
+
     @Autowired
-    WebHookController(BuildsChangedNotifier buildsChangedNotifier, BuildRepository repository) {
+    WebHookController(BuildsChangedNotifier buildsChangedNotifier, BuildRepository repository,
+                      JenkinsPayloadParser jenkinsPayloadParser, TravisPayloadParser travisPayloadParser) {
         this.buildsChangedNotifier = buildsChangedNotifier;
         this.repository = repository;
+        this.jenkinsPayloadParser = jenkinsPayloadParser;
+        this.travisPayloadParser = travisPayloadParser;
     }
 
     @SuppressWarnings("unchecked")
@@ -62,33 +69,7 @@ public final class WebHookController {
     @RequestMapping(method = RequestMethod.POST, value = "", params = "payload")
     ResponseEntity<Void> travisWebHook(@PathVariable Project project, @RequestParam("payload") Map<String, ?> payload)
             throws IOException {
-        return webHook(project, payload, new PayloadParser() {
-
-            @Override
-            public Build.State getState(Map<String, ?> payload) {
-                Object status = payload.get("status");
-
-                if (Integer.valueOf(0).equals(status)) {
-                    return Build.State.PASS;
-                } else if (Integer.valueOf(1).equals(status)) {
-                    return Build.State.FAIL;
-                } else {
-                    return Build.State.UNKNOWN;
-                }
-            }
-
-            @Override
-            public String getUri(Map<String, ?> payload) {
-                return (String) payload.get("build_url");
-            }
-
-            @Override
-            public Boolean shouldProcess(Map<String, ?> payload) {
-                String compareUrl = (String) payload.get("compare_url");
-
-                return compareUrl == null || !compareUrl.matches(".*/pull/[\\d]+");
-            }
-        });
+        return webHook(project, payload, this.travisPayloadParser);
     }
 
     @SuppressWarnings("unchecked")
@@ -96,45 +77,7 @@ public final class WebHookController {
     @RequestMapping(method = RequestMethod.POST, value = "")
     ResponseEntity<Void> jenkinsWebHook(@PathVariable Project project, @RequestBody Map<String, ?> payload) throws
             IOException {
-        return webHook(project, payload, new PayloadParser() {
-
-            @Override
-            public Build.State getState(Map<String, ?> payload) {
-                Map<String, String> build = getBuild(payload);
-                Object phase = build.get("phase");
-
-                if ("STARTED".equals(phase)) {
-                    return Build.State.IN_PROGRESS;
-                } else if ("COMPLETED".equals(phase) || "FINISHED".equals(phase)) {
-                    Object status = build.get("status");
-
-                    if ("SUCCESS".equals(status)) {
-                        return Build.State.PASS;
-                    } else if ("FAILURE".equals(status)) {
-                        return Build.State.FAIL;
-                    } else {
-                        return Build.State.UNKNOWN;
-                    }
-                } else {
-                    return Build.State.UNKNOWN;
-                }
-            }
-
-            @Override
-            public String getUri(Map<String, ?> payload) {
-                return getBuild(payload).get("full_url");
-            }
-
-            @Override
-            public Boolean shouldProcess(Map<String, ?> payload) {
-                return true;
-            }
-
-            private Map<String, String> getBuild(Map<String, ?> payload) {
-                return (Map<String, String>) payload.get("build");
-            }
-
-        });
+        return webHook(project, payload, this.jenkinsPayloadParser);
     }
 
     private ResponseEntity<Void> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) throws
@@ -169,12 +112,30 @@ public final class WebHookController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private static interface PayloadParser {
+    static interface PayloadParser {
 
+        /**
+         * Returns the state of the build represented by the payload
+         *
+         * @param payload the payload
+         *
+         * @return the state of the build represented by the payload
+         */
         Build.State getState(Map<String, ?> payload);
 
+        /**
+         * Returns the uri of the build represented by the payload
+         *
+         * @param payload the payload
+         * @return the uri of the build represented by the payload
+         */
         String getUri(Map<String, ?> payload);
 
+        /**
+         * Whether or not the payload should be processed
+         * @param payload the payload
+         * @return {@code true} if the payload should be processed, {@code false} otherwise
+         */
         Boolean shouldProcess(Map<String, ?> payload);
 
     }

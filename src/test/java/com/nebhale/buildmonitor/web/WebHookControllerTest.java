@@ -24,7 +24,6 @@ import com.nebhale.buildmonitor.utils.IoUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.util.StreamUtils;
 
 import java.io.FileInputStream;
@@ -111,79 +110,6 @@ public final class WebHookControllerTest extends AbstractControllerTest {
                         .content(read("uri-too-short-webhook.json")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("uri value '' size")));
-    }
-
-    @Test
-    public void travisWebHookPass() throws Exception {
-        assertState("travis-pass-webhook.json", Build.State.PASS);
-    }
-
-    @Test
-    public void travisWebHookFail() throws Exception {
-        assertState("travis-fail-webhook.json", Build.State.FAIL);
-    }
-
-    @Test
-    public void travisWebHookUnknown() throws Exception {
-        assertState("travis-unknown-webhook.json", Build.State.UNKNOWN);
-    }
-
-    @Test
-    public void jenkinsWebHookStart() throws Exception {
-        assertState("jenkins-in-progress-webhook.json", Build.State.IN_PROGRESS);
-    }
-
-    @Test
-    public void jenkinsWebHookPassCompleted() throws Exception {
-        assertState("jenkins-pass-completed-webhook.json", Build.State.PASS);
-    }
-
-    @Test
-    public void jenkinsWebHookFinishedCompleted() throws Exception {
-        assertState("jenkins-pass-finished-webhook.json", Build.State.PASS);
-    }
-
-    @Test
-    public void jenkinsWebHookFail() throws Exception {
-        assertState("jenkins-fail-webhook.json", Build.State.FAIL);
-    }
-
-    @Test
-    public void jenkinsWebHookUnknownPhase() throws Exception {
-        assertState("jenkins-unknown-phase-webhook.json", Build.State.UNKNOWN);
-    }
-
-    @Test
-    public void jenkinsWebHookUnknownStatus() throws Exception {
-        assertState("jenkins-unknown-status-webhook.json", Build.State.UNKNOWN);
-    }
-
-    @Test
-    public void travisWebHookIgnorePullRequest() throws Exception{
-        this.projectRepository.saveAndFlush(this.project);
-
-        this.mockMvc.perform(
-                post("/projects/TEST-KEY/webhook")
-                        .contentType(MEDIA_TYPE)
-                        .param("payload", read("travis-ignore-pull-request-webhook.json")))
-                .andExpect(status().isOk());
-
-        assertEquals(0, countRowsInTable("build"));
-    }
-
-    private void assertState(String filename, Build.State state) throws Exception {
-        this.projectRepository.saveAndFlush(this.project);
-
-        MockHttpServletRequestBuilder requestBuilder = post("/projects/TEST-KEY/webhook").contentType(MEDIA_TYPE);
-
-        if (filename.startsWith("travis")) {
-            requestBuilder.param("payload", read(filename));
-        } else {
-            requestBuilder.content(read(filename));
-        }
-
-        this.mockMvc.perform(requestBuilder).andExpect(status().isOk());
-        assertEquals(state, this.buildRepository.findAll().get(0).getState());
     }
 
     private String read(String filename) throws IOException {

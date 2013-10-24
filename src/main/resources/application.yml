@@ -1,4 +1,23 @@
 ---
 spring:
+  database: # TODO: Remove declaration once Boot M6 is released
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:build_monitor;MODE=PostgreSQL
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:build_monitor;MODE=PostgreSQL
   jpa:
+    hibernate.ddl-auto: none
     show_sql: false
+
+---
+spring:
+  profiles: local
+  database: # TODO: Remove declaration once Boot M6 is released
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/build_monitor
+    username: ${user.name}
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/build_monitor
+    username: ${user.name}

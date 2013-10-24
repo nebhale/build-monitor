@@ -52,8 +52,8 @@ public final class BuildController {
 
     private final BuildResourceAssembler resourceAssembler;
 
-    @Autowired
-    BuildController(PagedResourcesAssembler<Build> pagedResourcesAssembler, BuildRepository repository,
+    @Autowired  // TODO: Reinstate generic type on PagedResourceAssembler once bug is fixed in Spring
+    BuildController(PagedResourcesAssembler pagedResourcesAssembler, BuildRepository repository,
                     BuildResourceAssembler resourceAssembler) {
         this.pagedResourcesAssembler = pagedResourcesAssembler;
         this.repository = repository;

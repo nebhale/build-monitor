@@ -2,6 +2,9 @@
     "build": {
         "full_url": "http://host/job/job-name/211/",
         "number": 211,
+        "parameters": {
+            "branch": "master"
+        },
         "phase": "LOKI",
         "status": "SUCCESS",
         "url": "job/job-name/211/"
