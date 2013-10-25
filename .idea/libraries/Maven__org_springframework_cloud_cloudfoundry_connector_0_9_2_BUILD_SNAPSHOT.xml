@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.cloud:cloudfoundry-connector:0.9.2-BUILD-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/cloud/cloudfoundry-connector/0.9.2-BUILD-SNAPSHOT/cloudfoundry-connector-0.9.2-BUILD-20131014.163033-13.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/cloud/cloudfoundry-connector/0.9.2-BUILD-SNAPSHOT/cloudfoundry-connector-0.9.2-BUILD-20131014.163033-13-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/cloud/cloudfoundry-connector/0.9.2-BUILD-SNAPSHOT/cloudfoundry-connector-0.9.2-BUILD-20131014.163033-13-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

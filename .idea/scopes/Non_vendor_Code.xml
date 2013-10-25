@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Non-vendor Code" pattern="!file:.idea//*&amp;&amp;!file:vendor/stomp-websocket//*&amp;&amp;!file:vendor/lodash//*&amp;&amp;!file:vendor/momentjs//*&amp;&amp;!file:vendor/font-awesome//*&amp;&amp;!file:vendor/angular//*&amp;&amp;!file:src/main/resources/static/font/*&amp;&amp;!file:src/main/resources/static/*/*.min.*&amp;&amp;!file:rested.request&amp;&amp;!file:src/test/resources/logback-test.xml&amp;&amp;!file:src/main/resources/logback.xml&amp;&amp;!file:vendor/sockjs//*" />
+</component>

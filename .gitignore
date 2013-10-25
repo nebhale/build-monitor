@@ -1,4 +1,4 @@
-.idea
-*.iml
 git.properties
 target
+tasks.xml
+workspace.xml

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Web Assets" pattern="file:src/main/resources/static//*" />
+</component>
