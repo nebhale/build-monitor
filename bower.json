@@ -1,11 +1,6 @@
 {
   "name": "build-monitor",
   "dependencies": {
-    "angular": "~1.0.8",
-    "font-awesome": "~3.2.0",
-    "lodash": "~2.2.0",
-    "momentjs": "~2.3.0",
-    "sockjs": "~0.3.0",
     "stomp-websocket": "https://github.com/jmesnil/stomp-websocket.git#~v2.3.0"
   }
 }

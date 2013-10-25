@@ -3,6 +3,8 @@ applications:
 - name: build-monitor
   memory: 512M
   instances: 1
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
   path: target/build-monitor.jar
   buildpack: https://github.com/cloudfoundry/java-buildpack
   services:
