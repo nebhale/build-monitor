@@ -31,6 +31,11 @@ Master [![Build Status](https://travis-ci.org/moment/moment.png?branch=master)](
 Changelog
 =========
 
+### 2.3.0 [See changelog](https://gist.github.com/ichernev/6864354)
+
+Changed isValid, added strict parsing.
+Week tokens parsing.
+
 ### 2.2.1
 
 Fixed bug in string prototype test.
@@ -40,7 +45,7 @@ Updated authors and contributors.
 
 Added bower support.
 
-Languge files now use UMD.
+Language files now use UMD.
 
 Creating moment defaults to current date/month/year.
 
