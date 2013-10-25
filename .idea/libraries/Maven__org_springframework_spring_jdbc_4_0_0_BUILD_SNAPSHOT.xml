@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework:spring-jdbc:4.0.0.BUILD-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jdbc/4.0.0.BUILD-SNAPSHOT/spring-jdbc-4.0.0.BUILD-20131025.020244-315.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jdbc/4.0.0.BUILD-SNAPSHOT/spring-jdbc-4.0.0.BUILD-20131025.020244-315-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jdbc/4.0.0.BUILD-SNAPSHOT/spring-jdbc-4.0.0.BUILD-20131025.020244-315-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
