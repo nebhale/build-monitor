@@ -19,6 +19,8 @@ package com.nebhale.buildmonitor.repository;
 import com.nebhale.buildmonitor.domain.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Repository for working with {@link Project}s
  */
@@ -29,6 +31,6 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
      *
      * @return all projects sorted by their key, ascending
      */
-//    List<Project> findAllOrderByKeyAsc();
+    List<Project> findAllByOrderByKeyAsc();
 
 }
