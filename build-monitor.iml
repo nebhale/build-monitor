@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/com/nebhale/buildmonitor/ApplicationConfiguration.java</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -30,7 +39,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.0.0.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:1.8.9" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.0.0.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:0.5.0.M5" level="project" />
@@ -84,7 +92,7 @@
     <orderEntry type="library" name="Maven: org.webjars:font-awesome:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery:1.9.0" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:lodash:2.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars:lodash:2.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:momentjs:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:sockjs-client:0.3.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.11" level="project" />

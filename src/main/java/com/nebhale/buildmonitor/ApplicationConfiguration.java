@@ -60,7 +60,7 @@ public class ApplicationConfiguration {
 
     @Bean(destroyMethod = "close")
     @Profile("cloud")
-    DataSource cloudDataSource() {
+    BoneCPDataSource cloudDataSource() {
         PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloud().getServiceInfo("build-monitor-db");
 
         BoneCPDataSource dataSource = new BoneCPDataSource();
