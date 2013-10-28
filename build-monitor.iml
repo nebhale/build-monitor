@@ -89,7 +89,7 @@
     <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:0.8.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.12" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:angularjs:1.0.8" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:font-awesome:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars:font-awesome:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery:1.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:lodash:2.2.1" level="project" />

@@ -19,11 +19,11 @@
 <head>
     <title>Build Monitor</title>
 
-    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/3.2.1/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/4.0.0/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="css/common.css">
     <link type="text/css" rel="stylesheet" href="css/dashboard.css">
     <script type="text/javascript" src="webjars/angularjs/1.0.8/angular.min.js"></script>
-    <script type="text/javascript" src="webjars/lodash/2.1.0/lodash.min.js"></script>
+    <script type="text/javascript" src="webjars/lodash/2.2.1/lodash.min.js"></script>
     <script type="text/javascript" src="webjars/momentjs/2.3.1/min/moment.min.js"></script>
     <script type="text/javascript" src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script type="text/javascript" src="js/stomp.min.js"></script>
@@ -40,7 +40,7 @@
             <div class="history">
                 <div class="build" ng-repeat="build in builds" ng-controller="BuildController">
                     <a ng-href="{{build.uri}}" target="_blank">
-                        <i class="icon-2x" ng-class="build.state | stateIcon" ng-style="fade($index)"></i>
+                        <i class="fa fa-2x" ng-class="build.state | stateIcon" ng-style="fade($index)"></i>
                     </a>
                 </div>
             </div>
