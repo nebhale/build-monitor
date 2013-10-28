@@ -85,7 +85,7 @@ public final class ProjectController {
     @RequestMapping(method = RequestMethod.GET, value = "", produces = MEDIA_TYPE)
     ResponseEntity<List<Resource<Project>>> readAll() {
         List<Resource<Project>> resources = new ArrayList<>();
-        for (Project project : this.repository.findAll(new Sort("key"))) {
+        for (Project project : this.repository.findAllByOrderByKeyAsc()) {
             resources.add(this.resourceAssembler.toResource(project));
         }
 
