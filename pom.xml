@@ -45,7 +45,7 @@
 
         <angularjs.version>1.0.8</angularjs.version>
         <font-awesome.version>3.2.1</font-awesome.version>
-        <lodash.version>2.1.0</lodash.version>
+        <lodash.version>2.2.1</lodash.version>
         <momentjs.version>2.3.1</momentjs.version>
         <sockjs-client.version>0.3.4</sockjs-client.version>
 
