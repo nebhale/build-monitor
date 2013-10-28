@@ -19,11 +19,11 @@
 <head>
     <title>Build Monitor Management</title>
 
-    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/3.2.1/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/4.0.0/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="css/common.css">
     <link type="text/css" rel="stylesheet" href="css/management.css">
     <script type="text/javascript" src="webjars/angularjs/1.0.8/angular.min.js"></script>
-    <script type="text/javascript" src="webjars/lodash/2.1.0/lodash.min.js"></script>
+    <script type="text/javascript" src="webjars/lodash/2.2.1/lodash.min.js"></script>
     <script type="text/javascript" src="webjars/momentjs/2.3.1/min/moment.min.js"></script>
     <script type="text/javascript" src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script type="text/javascript" src="js/stomp.min.js"></script>
@@ -36,7 +36,7 @@
     <table>
         <tr ng-repeat="project in projects" ng-controller="ProjectController">
             <td class="delete">
-                <i class="icon-remove icon-large" ng-click="delete()"></i>
+                <i class="fa fa-times fa-lg" ng-click="delete()"></i>
             </td>
             <td class="key">{{project.key}}</td>
             <td class="name">{{project.name}}</td>
@@ -46,7 +46,7 @@
             <td></td>
             <td><input class="key" type="text" ng-model="newProject.key"></td>
             <td><input class="name" type="text" ng-model="newProject.name"></td>
-            <td class="create"><i class="icon-plus icon-large" ng-click="create(newProject)"></i></td>
+            <td class="create"><i class="fa fa-plus fa-lg" ng-click="create(newProject)"></i></td>
         </tr>
     </table>
 </div>

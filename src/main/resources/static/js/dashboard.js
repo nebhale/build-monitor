@@ -23,14 +23,14 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         return function (state) {
             if ('PASS' === state) {
-                return 'icon-ok';
+                return 'fa-check';
             } else if ('FAIL' === state) {
-                return 'icon-remove';
+                return 'fa-times';
             } else if ('IN_PROGRESS' === state) {
-                return 'icon-spinner icon-spin';
+                return 'fa-spinner fa-spin';
             }
 
-            return 'icon-question';
+            return 'fa-question';
         };
     })
 
