@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.boot:spring-boot-actuator:0.5.0.BUILD-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-actuator/0.5.0.BUILD-SNAPSHOT/spring-boot-actuator-0.5.0.BUILD-20131105.072111-265.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-actuator/0.5.0.BUILD-SNAPSHOT/spring-boot-actuator-0.5.0.BUILD-20131105.072111-265-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-actuator/0.5.0.BUILD-SNAPSHOT/spring-boot-actuator-0.5.0.BUILD-20131105.072111-265-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
