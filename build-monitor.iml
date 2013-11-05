@@ -30,16 +30,16 @@
     <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.5" level="project" />
     <orderEntry type="library" name="Maven: org.postgresql:postgresql:9.2-1003-jdbc4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-core:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:4.0.0.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-actuator:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:0.5.0.M5" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:4.0.0.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.0.0.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.5" level="project" />
@@ -58,8 +58,8 @@
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:0.5.0.M5" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.0.0.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jdbc:8.0.0-RC5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:8.0.0-RC5" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:4.2.1.Final" level="project" />
@@ -70,18 +70,18 @@
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.15.0-GA" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.common:hibernate-commons-annotations:4.0.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-orm:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-orm:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:1.5.0.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.7.0.BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-tomcat:0.5.0.M5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.0.0-RC5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.0-RC5" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.0.0.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:0.5.0.M5" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:4.0.0.BUILD-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:4.0.0.BUILD-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:4.0.0.RC1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:4.0.0.RC1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:cloudfoundry-connector:0.9.2-BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:core:0.9.2-BUILD-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.hateoas:spring-hateoas:0.8.0.RELEASE" level="project" />
