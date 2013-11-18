@@ -41,7 +41,6 @@ import javax.sql.DataSource;
  * Main configuration and application entry point
  */
 @ComponentScan
-@Configuration
 @EnableAutoConfiguration
 @EnableHypermediaSupport
 @EnableSpringDataWebSupport

@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Controller for accessing {@link Build}s
  */
 @Controller
-@ExposesResourceFor(Build.class)
 @RequestMapping("/projects/{project}/builds")
 public final class BuildController {
 

@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>0.5.0.BUILD-SNAPSHOT</version>
+        <version>0.5.0.M6</version>
     </parent>
 
     <groupId>com.nebhale</groupId>
@@ -35,22 +35,22 @@
     <packaging>jar</packaging>
 
     <properties>
-        <bonecp.version>0.8.0-rc3</bonecp.version>
+        <bonecp.version>0.8.0.RELEASE</bonecp.version>
         <flyway.version>2.2.1</flyway.version>
-        <json-path.version>0.8.1</json-path.version>
-        <postgres.version>9.2-1003-jdbc4</postgres.version>
+        <json-path.version>0.9.1</json-path.version>
+        <postgres.version>9.3-1100-jdbc4</postgres.version>
         <spring-cloud.version>0.9.2-BUILD-SNAPSHOT</spring-cloud.version>
         <spring-hateoas.version>0.8.0.RELEASE</spring-hateoas.version>
         <spring-plugin.version>0.8.0.RELEASE</spring-plugin.version>
 
         <angularjs.version>1.0.8</angularjs.version>
-        <font-awesome.version>4.0.0</font-awesome.version>
+        <font-awesome.version>4.0.3</font-awesome.version>
         <lodash.version>2.2.1</lodash.version>
-        <momentjs.version>2.3.1</momentjs.version>
+        <momentjs.version>2.4.0</momentjs.version>
         <sockjs-client.version>0.3.4</sockjs-client.version>
+        <stomp-websocket.version>2.3.0</stomp-websocket.version>
 
         <java.version>1.7</java.version>
-        <spring.version>4.0.0.RC1</spring.version>
         <spring-data-jpa.version>1.5.0.BUILD-SNAPSHOT</spring-data-jpa.version>
         <tomcat.version>8.0.0-RC5</tomcat.version>
     </properties>
@@ -152,6 +152,11 @@
             <groupId>org.webjars</groupId>
             <artifactId>sockjs-client</artifactId>
             <version>${sockjs-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>${stomp-websocket.version}</version>
         </dependency>
     </dependencies>
 

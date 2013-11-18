@@ -1,6 +1,0 @@
-{
-  "name": "build-monitor",
-  "dependencies": {
-    "stomp-websocket": "https://github.com/jmesnil/stomp-websocket.git#~v2.3.0"
-  }
-}
