@@ -16,23 +16,13 @@
 
 package com.nebhale.buildmonitor.web.resource;
 
-import com.nebhale.buildmonitor.web.BuildController;
-import com.nebhale.buildmonitor.web.ProjectController;
 import org.junit.Before;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.core.ControllerEntityLinks;
-import org.springframework.hateoas.mvc.ControllerLinkBuilderFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import java.util.Arrays;
-
 public abstract class AbstractResourceAssemblerTest {
-
-    protected final EntityLinks entityLinks = new ControllerEntityLinks(Arrays.asList(ProjectController.class,
-            BuildController.class), new ControllerLinkBuilderFactory());
 
     @Before
     public final void requestContext() {

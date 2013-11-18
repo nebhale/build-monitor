@@ -22,8 +22,6 @@ import com.nebhale.buildmonitor.web.notify.ProjectsChangedNotifier;
 import com.nebhale.buildmonitor.web.resource.ProjectResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,17 +36,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 /**
  * Controller for accessing {@link Project}s
  */
 @Controller
-@ExposesResourceFor(Project.class)
 @RequestMapping("/projects")
 public final class ProjectController {
 
     private static final String MEDIA_TYPE = "application/vnd.nebhale.buildmonitor.project+json";
-
-    private final EntityLinks entityLinks;
 
     private final ProjectsChangedNotifier projectsChangedNotifier;
 
@@ -57,9 +54,8 @@ public final class ProjectController {
     private final ProjectResourceAssembler resourceAssembler;
 
     @Autowired
-    ProjectController(EntityLinks entityLinks, ProjectsChangedNotifier projectsChangedNotifier, ProjectRepository repository,
+    ProjectController(ProjectsChangedNotifier projectsChangedNotifier, ProjectRepository repository,
                       ProjectResourceAssembler resourceAssembler) {
-        this.entityLinks = entityLinks;
         this.projectsChangedNotifier = projectsChangedNotifier;
         this.repository = repository;
         this.resourceAssembler = resourceAssembler;
@@ -75,7 +71,7 @@ public final class ProjectController {
         this.repository.saveAndFlush(project);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(this.entityLinks.linkForSingleResource(Project.class, project.getKey()).toUri());
+        headers.setLocation(linkTo(ProjectController.class).slash(project.getKey()).toUri());
 
         this.projectsChangedNotifier.projectsChanged();
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
