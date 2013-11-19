@@ -19,7 +19,7 @@ package com.nebhale.buildmonitor.web;
 import com.nebhale.buildmonitor.ApplicationConfiguration;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.initializer.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -33,8 +33,7 @@ import java.util.Set;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @WebAppConfiguration
-@ContextConfiguration(classes = ApplicationConfiguration.class,
-        initializers = ConfigFileApplicationContextInitializer.class)
+@ContextConfiguration(classes = ApplicationConfiguration.class, loader = SpringApplicationContextLoader.class)
 public abstract class AbstractControllerTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     protected volatile MockMvc mockMvc;
