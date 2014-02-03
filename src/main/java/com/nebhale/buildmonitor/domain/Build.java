@@ -22,6 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +40,7 @@ public final class Build {
 
     private volatile Date created;
 
+    @JoinColumn(name = "project") // TODO: Remove once H2 supports column rename in PostgreSQL compatibility mode
     @ManyToOne
     @NotNull
     private volatile Project project;

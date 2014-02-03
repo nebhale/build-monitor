@@ -17,23 +17,20 @@
 package com.nebhale.buildmonitor;
 
 import com.googlecode.flyway.core.Flyway;
-import com.jolbox.bonecp.BoneCPDataSource;
-import org.postgresql.Driver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
-import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.messaging.simp.config.EnableWebSocketMessageBroker;
-import org.springframework.messaging.simp.config.MessageBrokerConfigurer;
-import org.springframework.messaging.simp.config.StompEndpointRegistry;
-import org.springframework.messaging.simp.config.WebSocketMessageBrokerConfigurer;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import javax.sql.DataSource;
 
@@ -42,7 +39,6 @@ import javax.sql.DataSource;
  */
 @ComponentScan
 @EnableAutoConfiguration
-@EnableHypermediaSupport
 @EnableSpringDataWebSupport
 public class ApplicationConfiguration {
 
@@ -57,17 +53,9 @@ public class ApplicationConfiguration {
         SpringApplication.run(ApplicationConfiguration.class, args);
     }
 
-    @Bean(destroyMethod = "close")
     @Profile("cloud")
-    BoneCPDataSource cloudDataSource() {
-        PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloud().getServiceInfo("build-monitor-db");
-
-        BoneCPDataSource dataSource = new BoneCPDataSource();
-        dataSource.setDriverClass(Driver.class.getCanonicalName());
-        dataSource.setJdbcUrl(serviceInfo.getJdbcUrl());
-        dataSource.setMaxConnectionsPerPartition(2);
-
-        return dataSource;
+    DataSource cloudDataSource() {
+        return cloud().getSingletonServiceConnector(DataSource.class, null);
     }
 
     @Bean
@@ -95,9 +83,20 @@ public class ApplicationConfiguration {
         }
 
         @Override
-        public void configureMessageBroker(MessageBrokerConfigurer configurer) {
-            configurer.setAnnotationMethodDestinationPrefixes("/app");
+        public void configureClientInboundChannel(ChannelRegistration registration) {
+
         }
+
+        @Override
+        public void configureClientOutboundChannel(ChannelRegistration registration) {
+
+        }
+
+        @Override
+        public void configureMessageBroker(MessageBrokerRegistry registry) {
+            registry.setApplicationDestinationPrefixes("/app");
+        }
+
     }
 
 }

@@ -6,7 +6,7 @@ applications:
   env:
     SPRING_PROFILES_ACTIVE: cloud
   path: target/build-monitor.jar
-  buildpack: https://github.com/cloudfoundry/java-buildpack
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
   services:
     build-monitor-db:
       label: elephantsql

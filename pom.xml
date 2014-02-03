@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>0.5.0.M6</version>
+        <version>1.0.0.RC1</version>
     </parent>
 
     <groupId>com.nebhale</groupId>
@@ -35,24 +35,22 @@
     <packaging>jar</packaging>
 
     <properties>
-        <bonecp.version>0.8.0.RELEASE</bonecp.version>
-        <flyway.version>2.2.1</flyway.version>
+        <flyway.version>2.3.1</flyway.version>
         <json-path.version>0.9.1</json-path.version>
         <postgres.version>9.3-1100-jdbc4</postgres.version>
         <spring-cloud.version>0.9.2-BUILD-SNAPSHOT</spring-cloud.version>
-        <spring-hateoas.version>0.8.0.RELEASE</spring-hateoas.version>
-        <spring-plugin.version>0.8.0.RELEASE</spring-plugin.version>
+        <spring-hateoas.version>0.9.0.RELEASE</spring-hateoas.version>
+        <spring-plugin.version>1.0.0.RELEASE</spring-plugin.version>
 
         <angularjs.version>1.0.8</angularjs.version>
         <font-awesome.version>4.0.3</font-awesome.version>
-        <lodash.version>2.2.1</lodash.version>
-        <momentjs.version>2.4.0</momentjs.version>
+        <lodash.version>2.4.1-1</lodash.version>
+        <momentjs.version>2.5.0</momentjs.version>
         <sockjs-client.version>0.3.4</sockjs-client.version>
         <stomp-websocket.version>2.3.0</stomp-websocket.version>
 
         <java.version>1.7</java.version>
-        <spring-data-jpa.version>1.5.0.BUILD-SNAPSHOT</spring-data-jpa.version>
-        <tomcat.version>8.0.0-RC5</tomcat.version>
+        <tomcat.version>8.0.1</tomcat.version>
     </properties>
 
     <dependencies>
@@ -73,15 +71,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>${bonecp.version}</version>
+            <!-- TODO: Seems like this is a transient problem to be solved by Boot -->
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-el</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgres.version}</version>
-            <!--<scope>runtime</scope>--> <!-- TODO: Reinstate when BoneCP can be removed -->
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
