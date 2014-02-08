@@ -53,6 +53,7 @@ public class ApplicationConfiguration {
         SpringApplication.run(ApplicationConfiguration.class, args);
     }
 
+    @Bean
     @Profile("cloud")
     DataSource cloudDataSource() {
         return cloud().getSingletonServiceConnector(DataSource.class, null);
@@ -84,12 +85,10 @@ public class ApplicationConfiguration {
 
         @Override
         public void configureClientInboundChannel(ChannelRegistration registration) {
-
         }
 
         @Override
         public void configureClientOutboundChannel(ChannelRegistration registration) {
-
         }
 
         @Override
