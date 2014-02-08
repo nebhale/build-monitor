@@ -35,6 +35,7 @@
     <packaging>jar</packaging>
 
     <properties>
+        <bonecp.version>0.8.0.RELEASE</bonecp.version>
         <flyway.version>2.3.1</flyway.version>
         <json-path.version>0.9.1</json-path.version>
         <postgres.version>9.3-1100-jdbc4</postgres.version>
@@ -55,6 +56,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.jolbox</groupId>
+            <artifactId>bonecp</artifactId>
+            <version>${bonecp.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.googlecode.flyway</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
@@ -62,7 +68,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
@@ -126,11 +132,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>cloudfoundry-connector</artifactId>
-            <version>${spring-cloud.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-service-connector</artifactId>
             <version>${spring-cloud.version}</version>
         </dependency>
         <dependency>
