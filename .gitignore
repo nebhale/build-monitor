@@ -1,4 +1,5 @@
 git.properties
 target
-tasks.xml
-workspace.xml
+.idea/libraries
+.idea/tasks.xml
+.idea/workspace.xml
