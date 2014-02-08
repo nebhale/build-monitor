@@ -28,6 +28,11 @@ public final class TravisPayloadParserTest extends AbstractPayloadParserTest {
     }
 
     @Test
+    public void getStatePending() throws IOException {
+        assertState("travis-pending-webhook.json", Build.State.IN_PROGRESS);
+    }
+
+    @Test
     public void getStatePass() throws IOException {
         assertState("travis-pass-webhook.json", Build.State.PASS);
     }
