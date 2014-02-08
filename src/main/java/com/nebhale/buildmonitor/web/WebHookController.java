@@ -47,6 +47,8 @@ public final class WebHookController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     private final BuildsChangedNotifier buildsChangedNotifier;
 
     private final BuildRepository repository;
@@ -83,7 +85,7 @@ public final class WebHookController {
     private ResponseEntity<Void> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) throws
             JsonProcessingException {
         if (this.logger.isDebugEnabled()) {
-            this.logger.debug(new ObjectMapper().writeValueAsString(payload));
+            this.logger.debug(this.objectMapper.writeValueAsString(payload));
         }
 
         if (project == null) {
@@ -94,6 +96,9 @@ public final class WebHookController {
         Build.State state = payloadParser.getState(payload);
 
         this.logger.info("Received {} webhook for {} with status {}", project.getKey(), uri, state);
+        if (Build.State.UNKNOWN == state) {
+            this.logger.warn(this.objectMapper.writeValueAsString(payload));
+        }
 
         if (payloadParser.shouldProcess(payload)) {
             Build build = this.repository.findByUri(uri);
@@ -127,13 +132,16 @@ public final class WebHookController {
          * Returns the uri of the build represented by the payload
          *
          * @param payload the payload
+         *
          * @return the uri of the build represented by the payload
          */
         String getUri(Map<String, ?> payload);
 
         /**
          * Whether or not the payload should be processed
+         *
          * @param payload the payload
+         *
          * @return {@code true} if the payload should be processed, {@code false} otherwise
          */
         Boolean shouldProcess(Map<String, ?> payload);

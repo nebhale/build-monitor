@@ -17,6 +17,8 @@
 package com.nebhale.buildmonitor.web;
 
 import com.nebhale.buildmonitor.domain.Build;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -27,13 +29,23 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
 
     private static final Pattern PULL_REQUEST = Pattern.compile(".*/pull/[\\d]+");
 
-    @Override
-    public Build.State getState(Map<String, ?> payload) {
-        Object status = payload.get("status");
+    private static final String STATUS_IN_PROGRESS = "Pending";
 
-        if (Integer.valueOf(0).equals(status)) {
+    private static final String STATUS_PASS = "Passed";
+
+    private static final String STATUS_FAIL = "Broken";
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Override
+    public Build.State getState(Map<String, ?> payload)  {
+        String status = (String) payload.get("status_message");
+
+        if (STATUS_IN_PROGRESS.equalsIgnoreCase(status)) {
+            return Build.State.IN_PROGRESS;
+        } else if (STATUS_PASS.equalsIgnoreCase(status)) {
             return Build.State.PASS;
-        } else if (Integer.valueOf(1).equals(status)) {
+        } else if (STATUS_FAIL.equalsIgnoreCase(status)) {
             return Build.State.FAIL;
         } else {
             return Build.State.UNKNOWN;
