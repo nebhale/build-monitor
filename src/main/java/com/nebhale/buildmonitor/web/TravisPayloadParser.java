@@ -29,11 +29,13 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
 
     private static final Pattern PULL_REQUEST = Pattern.compile(".*/pull/[\\d]+");
 
-    private static final String STATUS_IN_PROGRESS = "Pending";
+    private static final String STATUS_BROKEN = "Broken";
 
-    private static final String STATUS_PASS = "Passed";
+    private static final String STATUS_FIXED = "Fixed";
 
-    private static final String STATUS_FAIL = "Broken";
+    private static final String STATUS_PASSED = "Passed";
+
+    private static final String STATUS_PENDING = "Pending";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -41,12 +43,14 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
     public Build.State getState(Map<String, ?> payload)  {
         String status = (String) payload.get("status_message");
 
-        if (STATUS_IN_PROGRESS.equalsIgnoreCase(status)) {
-            return Build.State.IN_PROGRESS;
-        } else if (STATUS_PASS.equalsIgnoreCase(status)) {
-            return Build.State.PASS;
-        } else if (STATUS_FAIL.equalsIgnoreCase(status)) {
+        if (STATUS_BROKEN.equalsIgnoreCase(status)) {
             return Build.State.FAIL;
+        } else if (STATUS_FIXED.equalsIgnoreCase(status)) {
+            return Build.State.PASS;
+        } else if (STATUS_PASSED.equalsIgnoreCase(status)) {
+            return Build.State.PASS;
+        } else if (STATUS_PENDING.equalsIgnoreCase(status)) {
+            return Build.State.IN_PROGRESS;
         } else {
             return Build.State.UNKNOWN;
         }
