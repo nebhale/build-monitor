@@ -8,13 +8,5 @@ applications:
   path: target/build-monitor.jar
   buildpack: https://github.com/cloudfoundry/java-buildpack.git
   services:
-    build-monitor-db:
-      label: elephantsql
-      provider: elephantsql
-      version: n/a
-      plan: turtle
-    new-relic:
-      label: newrelic
-      provider: newrelic
-      version: n/a
-      plan: standard
+    - build-monitor-db
+    - new-relic
