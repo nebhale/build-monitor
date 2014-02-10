@@ -17,33 +17,46 @@
 package com.nebhale.buildmonitor.web;
 
 import com.nebhale.buildmonitor.ApplicationConfiguration;
-import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@Transactional
 @WebAppConfiguration
-@ContextConfiguration(classes = ApplicationConfiguration.class, loader = SpringApplicationContextLoader.class)
-public abstract class AbstractControllerTest extends AbstractTransactionalJUnit4SpringContextTests {
+public abstract class AbstractControllerTest {
 
     protected volatile MockMvc mockMvc;
 
-    @Autowired
-    private volatile WebApplicationContext webApplicationContext;
+    protected volatile JdbcTemplate jdbcTemplate;
 
-    @Before
-    public final void mockMvc() {
-        this.mockMvc = webAppContextSetup(this.webApplicationContext).build();
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Autowired
+    public void setWebApplicationContext(WebApplicationContext webApplicationContext) {
+        this.mockMvc = webAppContextSetup(webApplicationContext).build();
+    }
+
+    protected final int countRowsInTable(String tableName) {
+        return JdbcTestUtils.countRowsInTable(this.jdbcTemplate, tableName);
     }
 
     protected final String toJson(String... pairs) {
