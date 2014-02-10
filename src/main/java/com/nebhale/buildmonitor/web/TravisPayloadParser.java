@@ -37,6 +37,8 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
 
     private static final String STATUS_PENDING = "Pending";
 
+    private static final String STATUS_STILL_FAILING = "Still Failing";
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -51,6 +53,8 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
             return Build.State.PASS;
         } else if (STATUS_PENDING.equalsIgnoreCase(status)) {
             return Build.State.IN_PROGRESS;
+        } else if (STATUS_STILL_FAILING.equalsIgnoreCase(status)) {
+            return Build.State.FAIL;
         } else {
             return Build.State.UNKNOWN;
         }
