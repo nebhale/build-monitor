@@ -44,11 +44,11 @@ angular.module('management', ['ng', 'links', 'underscore'])
         'use strict';
 
         $scope.delete = function () {
-            $http.delete(links.getLink($scope.project, 'self')).success(function () {
+            $http.delete(links.normalizeScheme($scope.project._links.self.href)).success(function () {
                 _.remove($scope.projects, $scope.project);
             });
         };
 
-        $scope.webhookUri = links.getLink($scope.project, 'webhook');
+        $scope.webhookUri = links.normalizeScheme($scope.project._links.webhook.href);
 
     }]);

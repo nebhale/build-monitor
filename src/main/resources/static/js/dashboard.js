@@ -138,9 +138,9 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
             });
         });
 
-        $http.get(links.getLink($scope.project, 'builds')).success(function (builds) {
+        $http.get(links.normalizeScheme($scope.project._links.builds.href)).success(function (builds) {
             if (builds) {
-                $scope.builds = builds.content;
+                $scope.builds = builds._embedded.buildList;
             }
         });
 

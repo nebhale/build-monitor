@@ -136,9 +136,8 @@ public class ProjectControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.key").value("TEST_KEY"))
                 .andExpect(jsonPath("$.name").value("Test Name"))
-                .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value("http://localhost/projects/TEST_KEY"))
-                .andExpect(jsonPath("$.links[?(@.rel==webhook)].href[0]").value
-                        ("http://localhost/projects/TEST_KEY/webhook"));
+                .andExpect(jsonPath("$._links.self.href").value("http://localhost/projects/TEST_KEY"))
+                .andExpect(jsonPath("$._links.webhook.href").value("http://localhost/projects/TEST_KEY/webhook"));
     }
 
     @Test

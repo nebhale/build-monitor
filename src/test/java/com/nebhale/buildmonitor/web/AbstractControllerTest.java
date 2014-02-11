@@ -20,6 +20,7 @@ import com.nebhale.buildmonitor.ApplicationConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,17 +42,17 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public abstract class AbstractControllerTest {
 
-    protected volatile MockMvc mockMvc;
-
     protected volatile JdbcTemplate jdbcTemplate;
 
+    protected volatile MockMvc mockMvc;
+
     @Autowired
-    public void setDataSource(DataSource dataSource) {
+    final void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Autowired
-    public void setWebApplicationContext(WebApplicationContext webApplicationContext) {
+    final void setWebApplicationContext(WebApplicationContext webApplicationContext) {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
