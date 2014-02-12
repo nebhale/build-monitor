@@ -57,31 +57,35 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    @Profile("cloud")
-    DataSource cloudDataSource() {
-        PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloud().getServiceInfo("build-monitor-db");
-
-        BoneCPDataSource dataSource = new BoneCPDataSource();
-        dataSource.setDriverClass(Driver.class.getCanonicalName());
-        dataSource.setJdbcUrl(serviceInfo.getJdbcUrl());
-        dataSource.setMaxConnectionsPerPartition(2);
-
-        return dataSource;
-    }
-
-    @Bean
-    @Profile("cloud")
-    Cloud cloud() {
-        return new CloudFactory().getCloud();
-    }
-
-    @Bean
     Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.migrate();
 
         return flyway;
+    }
+
+    @Configuration
+    @Profile("cloud")
+    static class CloudConfiguration {
+
+        @Bean
+        Cloud cloud() {
+            return new CloudFactory().getCloud();
+        }
+
+        @Bean
+        DataSource dataSource() {
+            PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloud().getServiceInfo("build-monitor-db");
+
+            BoneCPDataSource dataSource = new BoneCPDataSource();
+            dataSource.setDriverClass(Driver.class.getCanonicalName());
+            dataSource.setJdbcUrl(serviceInfo.getJdbcUrl());
+            dataSource.setMaxConnectionsPerPartition(2);
+
+            return dataSource;
+        }
+
     }
 
     @Configuration
