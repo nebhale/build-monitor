@@ -4,6 +4,7 @@
       <w>buildmonitor</w>
       <w>closeables</w>
       <w>configurer</w>
+      <w>errored</w>
       <w>github</w>
       <w>googlecode</w>
       <w>jdbc</w>

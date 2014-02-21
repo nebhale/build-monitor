@@ -41,7 +41,8 @@ public final class TravisPayloadParserTest extends AbstractPayloadParserTest {
     @Test
     public void getStateFail() throws Exception {
         assertState("travis-still-failing-webhook.json", Build.State.FAIL);
-        assertState("travis-fail-webhook.json", Build.State.FAIL);
+        assertState("travis-broken-webhook.json", Build.State.FAIL);
+        assertState("travis-errored-webhook.json", Build.State.FAIL);
     }
 
     @Test
