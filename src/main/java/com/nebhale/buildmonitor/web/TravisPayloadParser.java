@@ -31,6 +31,8 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
 
     private static final String STATUS_BROKEN = "Broken";
 
+    private static final String STATUS_ERRORED = "Errored";
+
     private static final String STATUS_FIXED = "Fixed";
 
     private static final String STATUS_PASSED = "Passed";
@@ -47,7 +49,9 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
 
         if (STATUS_BROKEN.equalsIgnoreCase(status)) {
             return Build.State.FAIL;
-        } else if (STATUS_FIXED.equalsIgnoreCase(status)) {
+        } else if (STATUS_ERRORED.equalsIgnoreCase(status)) {
+            return Build.State.FAIL;
+        }else if (STATUS_FIXED.equalsIgnoreCase(status)) {
             return Build.State.PASS;
         } else if (STATUS_PASSED.equalsIgnoreCase(status)) {
             return Build.State.PASS;
