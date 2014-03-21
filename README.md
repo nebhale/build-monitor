@@ -1,7 +1,9 @@
 # Build Monitor
+[![Build Status](https://travis-ci.org/nebhale/build-monitor.svg?branch=master)](https://travis-ci.org/nebhale/build-monitor)
 
 This project is a self-hostable application that provides a dashboard for build statuses.  In order to facilitate self-hosting, the application is designed to work in [Cloud Foundry][].
 
+![Example](https://nebhale.github.io/build-monitor/example.png)
 
 ## Requirements
 
