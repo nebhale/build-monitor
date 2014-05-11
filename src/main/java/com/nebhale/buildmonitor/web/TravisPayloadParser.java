@@ -44,14 +44,14 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public Build.State getState(Map<String, ?> payload)  {
+    public Build.State getState(Map<String, ?> payload) {
         String status = (String) payload.get("status_message");
 
         if (STATUS_BROKEN.equalsIgnoreCase(status)) {
             return Build.State.FAIL;
         } else if (STATUS_ERRORED.equalsIgnoreCase(status)) {
             return Build.State.FAIL;
-        }else if (STATUS_FIXED.equalsIgnoreCase(status)) {
+        } else if (STATUS_FIXED.equalsIgnoreCase(status)) {
             return Build.State.PASS;
         } else if (STATUS_PASSED.equalsIgnoreCase(status)) {
             return Build.State.PASS;

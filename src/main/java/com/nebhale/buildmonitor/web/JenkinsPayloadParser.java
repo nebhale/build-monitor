@@ -66,10 +66,10 @@ final class JenkinsPayloadParser implements WebHookController.PayloadParser {
         Map<String, Map<String, String>> build = (Map<String, Map<String, String>>) payload.get("build");
         Map<String, String> parameters = build.get("parameters");
 
-        if(parameters != null) {
+        if (parameters != null) {
             String branch = parameters.get("branch");
 
-            if(branch != null) {
+            if (branch != null) {
                 return "master".equals(branch);
             }
         }

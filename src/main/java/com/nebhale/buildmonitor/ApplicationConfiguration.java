@@ -28,14 +28,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
+import java.util.List;
 
 /**
  * Main configuration and application entry point
@@ -98,11 +101,20 @@ public class ApplicationConfiguration {
         }
 
         @Override
+        public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+        }
+
+        @Override
         public void configureClientInboundChannel(ChannelRegistration registration) {
         }
 
         @Override
         public void configureClientOutboundChannel(ChannelRegistration registration) {
+        }
+
+        @Override
+        public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+            return true;
         }
 
         @Override

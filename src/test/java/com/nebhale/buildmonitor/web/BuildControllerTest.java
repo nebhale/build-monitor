@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public final class BuildControllerTest extends AbstractControllerTest {
+public class BuildControllerTest extends AbstractControllerTest {
 
     private static final MediaType MEDIA_TYPE = MediaType.valueOf("application/vnd.nebhale.buildmonitor.build+json");
 
@@ -38,7 +38,6 @@ public final class BuildControllerTest extends AbstractControllerTest {
     @Autowired
     private volatile BuildRepository buildRepository;
 
-
     @Test
     public void readAll() throws Exception {
         Project project = this.projectRepository.saveAndFlush(new Project("TEST-KEY", "Test Name"));
@@ -47,7 +46,8 @@ public final class BuildControllerTest extends AbstractControllerTest {
 
         this.mockMvc.perform(
                 get("/projects/TEST-KEY/builds")
-                        .accept(MEDIA_TYPE))
+                        .accept(MEDIA_TYPE)
+        )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$content[0].uri").value("test-uri-2"))
                 .andExpect(jsonPath("$content[1].uri").value("test-uri-1"));
@@ -57,7 +57,8 @@ public final class BuildControllerTest extends AbstractControllerTest {
     public void readAllNotNull() throws Exception {
         this.mockMvc.perform(
                 get("/projects/TEST_KEY/builds")
-                        .accept(MEDIA_TYPE))
+                        .accept(MEDIA_TYPE)
+        )
                 .andExpect(status().isNotFound());
     }
 }

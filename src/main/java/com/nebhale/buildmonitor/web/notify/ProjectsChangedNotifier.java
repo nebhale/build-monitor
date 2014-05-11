@@ -16,8 +16,6 @@
 
 package com.nebhale.buildmonitor.web.notify;
 
-import com.nebhale.buildmonitor.domain.Project;
-
 /**
  * Used to notify listeners of changes to the collection of projects
  */
