@@ -38,11 +38,11 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         'use strict';
 
         return function (state) {
-            if ('good' === state || 'up' === state) {
+            if ('good' === state || 'none' === state || 'up' === state) {
                 return 'good';
             } else if ('minor' === state) {
                 return 'minor';
-            } else if ('major' === state || 'down' === state) {
+            } else if ('critical' === state || 'down' === state || 'major' === state) {
                 return 'major';
             }
 
@@ -189,6 +189,32 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         function getState() {
             $http.jsonp(GITHUB_STATUS_URI).success(function (payload) {
                 $scope.state = payload.status;
+            });
+        }
+
+        $scope.$on('$destroy', function () {
+            $timeout.cancel($scope.timeout);
+        });
+
+        function refresh() {
+            $scope.timeout = $timeout(getState(), DELAY_IN_MINUTES * 60 * 1000).then(refresh);
+        }
+
+        refresh();
+        getState();
+
+    }])
+
+    .controller('TravisCIStatusController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+        'use strict';
+
+        var DELAY_IN_MINUTES = 5;
+
+        var TRAVIS_STATUS_URI = 'http://status.travis-ci.com/index.json';
+
+        function getState() {
+            $http.get(TRAVIS_STATUS_URI).success(function (payload) {
+                $scope.state = payload.status.indicator;
             });
         }
 
