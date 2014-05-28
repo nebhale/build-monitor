@@ -229,4 +229,30 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         refresh();
         getState();
 
+    }])
+
+    .controller('PivotalWebServicesStatusController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+        'use strict';
+
+        var DELAY_IN_MINUTES = 5;
+
+        var TRAVIS_STATUS_URI = 'http://status.run.pivotal.io/index.json';
+
+        function getState() {
+            $http.get(TRAVIS_STATUS_URI).success(function (payload) {
+                $scope.state = payload.status.indicator;
+            });
+        }
+
+        $scope.$on('$destroy', function () {
+            $timeout.cancel($scope.timeout);
+        });
+
+        function refresh() {
+            $scope.timeout = $timeout(getState(), DELAY_IN_MINUTES * 60 * 1000).then(refresh);
+        }
+
+        refresh();
+        getState();
+
     }]);
