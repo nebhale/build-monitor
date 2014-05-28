@@ -184,10 +184,12 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_MINUTES = 5;
 
-        var GITHUB_STATUS_URI = 'https://status.github.com/api/status.json?callback=JSON_CALLBACK';
+        var DATA_URI = 'https://status.github.com/api/status.json?callback=JSON_CALLBACK';
+
+        $scope.LINK_URI = 'https://status.github.com';
 
         function getState() {
-            $http.jsonp(GITHUB_STATUS_URI).success(function (payload) {
+            $http.jsonp(DATA_URI).success(function (payload) {
                 $scope.state = payload.status;
             });
         }
@@ -210,10 +212,12 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_MINUTES = 5;
 
-        var TRAVIS_STATUS_URI = 'http://status.travis-ci.com/index.json';
+        var DATA_URI = 'http://status.travis-ci.com/index.json';
+
+        $scope.LINK_URI = 'http://status.travis-ci.com';
 
         function getState() {
-            $http.get(TRAVIS_STATUS_URI).success(function (payload) {
+            $http.get(DATA_URI).success(function (payload) {
                 $scope.state = payload.status.indicator;
             });
         }
@@ -236,10 +240,12 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_MINUTES = 5;
 
-        var PWS_STATUS_URI = 'http://status.run.pivotal.io/index.json';
+        var DATA_URI = 'http://status.run.pivotal.io/index.json';
+
+        $scope.LINK_URI = 'http://status.run.pivotal.io';
 
         function getState() {
-            $http.get(PWS_STATUS_URI).success(function (payload) {
+            $http.get(DATA_URI).success(function (payload) {
                 $scope.state = payload.status.indicator;
             });
         }
