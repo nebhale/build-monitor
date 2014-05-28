@@ -197,7 +197,7 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         });
 
         function refresh() {
-            $scope.timeout = $timeout(getState(), DELAY_IN_MINUTES * 60 * 1000).then(refresh);
+            $scope.timeout = $timeout(getState, DELAY_IN_MINUTES * 60 * 1000).then(refresh);
         }
 
         refresh();
@@ -223,7 +223,7 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         });
 
         function refresh() {
-            $scope.timeout = $timeout(getState(), DELAY_IN_MINUTES * 60 * 1000).then(refresh);
+            $scope.timeout = $timeout(getState, DELAY_IN_MINUTES * 60 * 1000).then(refresh);
         }
 
         refresh();
@@ -236,10 +236,10 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_MINUTES = 5;
 
-        var TRAVIS_STATUS_URI = 'http://status.run.pivotal.io/index.json';
+        var PWS_STATUS_URI = 'http://status.run.pivotal.io/index.json';
 
         function getState() {
-            $http.get(TRAVIS_STATUS_URI).success(function (payload) {
+            $http.get(PWS_STATUS_URI).success(function (payload) {
                 $scope.state = payload.status.indicator;
             });
         }
@@ -249,7 +249,7 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
         });
 
         function refresh() {
-            $scope.timeout = $timeout(getState(), DELAY_IN_MINUTES * 60 * 1000).then(refresh);
+            $scope.timeout = $timeout(getState, DELAY_IN_MINUTES * 60 * 1000).then(refresh);
         }
 
         refresh();
