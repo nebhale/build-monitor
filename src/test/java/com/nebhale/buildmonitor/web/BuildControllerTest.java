@@ -49,8 +49,8 @@ public class BuildControllerTest extends AbstractControllerTest {
                         .accept(MEDIA_TYPE)
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$content[0].uri").value("test-uri-2"))
-                .andExpect(jsonPath("$content[1].uri").value("test-uri-1"));
+                .andExpect(jsonPath("$_embedded.buildList[0].uri").value("test-uri-2"))
+                .andExpect(jsonPath("$_embedded.buildList[1].uri").value("test-uri-1"));
     }
 
     @Test

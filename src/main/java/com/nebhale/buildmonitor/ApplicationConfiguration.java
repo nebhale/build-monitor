@@ -17,12 +17,9 @@
 package com.nebhale.buildmonitor;
 
 import com.googlecode.flyway.core.Flyway;
-import com.jolbox.bonecp.BoneCPDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.cloud.Cloud;
-import org.springframework.cloud.CloudFactory;
-import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.config.java.ServiceScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +34,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 import javax.sql.DataSource;
-import java.sql.Driver;
 import java.util.List;
 
 /**
@@ -69,25 +65,9 @@ public class ApplicationConfiguration {
     }
 
     @Configuration
+    @ServiceScan
     @Profile("cloud")
     static class CloudConfiguration {
-
-        @Bean
-        Cloud cloud() {
-            return new CloudFactory().getCloud();
-        }
-
-        @Bean
-        DataSource dataSource() {
-            PostgresqlServiceInfo serviceInfo = (PostgresqlServiceInfo) cloud().getServiceInfo("build-monitor-db");
-
-            BoneCPDataSource dataSource = new BoneCPDataSource();
-            dataSource.setDriverClass(Driver.class.getCanonicalName());
-            dataSource.setJdbcUrl(serviceInfo.getJdbcUrl());
-            dataSource.setMaxConnectionsPerPartition(2);
-
-            return dataSource;
-        }
 
     }
 
