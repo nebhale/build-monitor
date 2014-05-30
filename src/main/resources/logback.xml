@@ -26,7 +26,10 @@
     <logger name="com.googlecode.flyway" level="INFO"/>
     <logger name="com.nebhale.buildmonitor" level="${LOGGING_LEVEL:-INFO}"/>
     <logger name="org.apache" level="ERROR"/>
+    <logger name="org.cloudfoundry.reconfiguration" level="INFO"/>
     <logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO"/>
+    <logger name="org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration" level="INFO"/>
+    <logger name="org.springframework.cloud" level="INFO"/>
     <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="INFO"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="INFO"/>
 
