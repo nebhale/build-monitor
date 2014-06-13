@@ -35,13 +35,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <flyway.version>2.3.1</flyway.version>
         <json-path.version>0.9.1</json-path.version>
         <spring-cloud.version>1.0.0.RELEASE</spring-cloud.version>
-        <spring-hateoas.version>0.12.0.RELEASE</spring-hateoas.version>
         <spring-plugin.version>1.1.0.RELEASE</spring-plugin.version>
 
-        <angularjs.version>1.2.16-2</angularjs.version>
+        <angularjs.version>1.2.17</angularjs.version>
         <font-awesome.version>4.1.0</font-awesome.version>
         <lodash.version>2.4.1-4</lodash.version>
         <momentjs.version>2.6.0-2</momentjs.version>
@@ -54,11 +52,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.googlecode.flyway</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flyway.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -69,15 +62,9 @@
             <version>${json-path.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -168,10 +155,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

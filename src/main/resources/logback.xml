@@ -23,7 +23,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.googlecode.flyway" level="INFO"/>
+    <logger name="org.flywaydb" level="INFO"/>
     <logger name="com.nebhale.buildmonitor" level="${LOGGING_LEVEL:-INFO}"/>
     <logger name="org.apache" level="ERROR"/>
     <logger name="org.cloudfoundry.reconfiguration" level="INFO"/>

@@ -16,11 +16,9 @@
 
 package com.nebhale.buildmonitor;
 
-import com.googlecode.flyway.core.Flyway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.config.java.ServiceScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -33,7 +31,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -53,15 +50,6 @@ public class ApplicationConfiguration {
      */
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ApplicationConfiguration.class, args);
-    }
-
-    @Bean
-    Flyway flyway(DataSource dataSource) {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource);
-        flyway.migrate();
-
-        return flyway;
     }
 
     @Configuration

@@ -5,6 +5,7 @@
       <w>closeables</w>
       <w>configurer</w>
       <w>errored</w>
+      <w>flywaydb</w>
       <w>github</w>
       <w>googlecode</w>
       <w>jdbc</w>
