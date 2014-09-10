@@ -52,11 +52,8 @@ public class WebHookControllerTest extends AbstractControllerTest {
 
     @Test
     public void webHookNotFound() throws Exception {
-        this.mockMvc.perform(
-                post("/projects/TEST-KEY/webhook")
-                        .contentType(MEDIA_TYPE)
-                        .content(read("webhook.json"))
-        )
+        this.mockMvc.perform(post("/projects/TEST-KEY/webhook").contentType(MEDIA_TYPE)
+                .content(read("webhook.json")))
                 .andExpect(status().isNotFound());
     }
 
@@ -64,11 +61,8 @@ public class WebHookControllerTest extends AbstractControllerTest {
     public void webHookNewBuild() throws Exception {
         this.projectRepository.saveAndFlush(this.project);
 
-        this.mockMvc.perform(
-                post("/projects/TEST-KEY/webhook")
-                        .contentType(MEDIA_TYPE)
-                        .content(read("webhook.json"))
-        )
+        this.mockMvc.perform(post("/projects/TEST-KEY/webhook").contentType(MEDIA_TYPE)
+                .content(read("webhook.json")))
                 .andExpect(status().isOk());
 
         assertEquals(1, countRowsInTable("build"));
@@ -79,11 +73,8 @@ public class WebHookControllerTest extends AbstractControllerTest {
         this.projectRepository.saveAndFlush(this.project);
         this.buildRepository.saveAndFlush(this.build);
 
-        this.mockMvc.perform(
-                post("/projects/TEST-KEY/webhook")
-                        .contentType(MEDIA_TYPE)
-                        .content(read("webhook.json"))
-        )
+        this.mockMvc.perform(post("/projects/TEST-KEY/webhook").contentType(MEDIA_TYPE)
+                .content(read("webhook.json")))
                 .andExpect(status().isOk());
 
         assertEquals(1, countRowsInTable("build"));
@@ -93,11 +84,8 @@ public class WebHookControllerTest extends AbstractControllerTest {
     public void webHookMaxUriSize() throws Exception {
         this.projectRepository.saveAndFlush(this.project);
 
-        this.mockMvc.perform(
-                post("/projects/TEST-KEY/webhook")
-                        .contentType(MEDIA_TYPE)
-                        .content(read("uri-too-long-webhook.json"))
-        )
+        this.mockMvc.perform(post("/projects/TEST-KEY/webhook").contentType(MEDIA_TYPE)
+                .content(read("uri-too-long-webhook.json")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("uri value " +
                         "'http://host/job/job-name/211/111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111' size")));
@@ -107,11 +95,8 @@ public class WebHookControllerTest extends AbstractControllerTest {
     public void webHookMinUriSize() throws Exception {
         this.projectRepository.saveAndFlush(this.project);
 
-        this.mockMvc.perform(
-                post("/projects/TEST-KEY/webhook")
-                        .contentType(MEDIA_TYPE)
-                        .content(read("uri-too-short-webhook.json"))
-        )
+        this.mockMvc.perform(post("/projects/TEST-KEY/webhook").contentType(MEDIA_TYPE)
+                .content(read("uri-too-short-webhook.json")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("uri value '' size")));
     }

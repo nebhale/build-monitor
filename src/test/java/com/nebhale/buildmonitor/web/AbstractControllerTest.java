@@ -30,8 +30,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -62,11 +63,10 @@ public abstract class AbstractControllerTest {
     final String toJson(String... pairs) {
         StringBuilder sb = new StringBuilder("{ ");
 
-        Set<String> entries = new HashSet<>(pairs.length);
-        for (String pair : pairs) {
+        Set<String> entries = Arrays.stream(pairs).map(pair -> {
             String[] parts = StringUtils.split(pair, ":");
-            entries.add(String.format("\"%s\" : \"%s\"", parts[0], parts[1]));
-        }
+            return String.format("\"%s\" : \"%s\"", parts[0], parts[1]);
+        }).collect(Collectors.toSet());
 
         sb.append(StringUtils.collectionToDelimitedString(entries, ", "));
 

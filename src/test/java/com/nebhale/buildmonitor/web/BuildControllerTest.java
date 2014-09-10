@@ -44,10 +44,7 @@ public class BuildControllerTest extends AbstractControllerTest {
         this.buildRepository.saveAndFlush(new Build(project, "test-uri-1", Build.State.PASS));
         this.buildRepository.saveAndFlush(new Build(project, "test-uri-2", Build.State.PASS));
 
-        this.mockMvc.perform(
-                get("/projects/TEST-KEY/builds")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(get("/projects/TEST-KEY/builds").accept(MEDIA_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$_embedded.buildList[0].uri").value("test-uri-2"))
                 .andExpect(jsonPath("$_embedded.buildList[1].uri").value("test-uri-1"));
@@ -55,10 +52,7 @@ public class BuildControllerTest extends AbstractControllerTest {
 
     @Test
     public void readAllNotNull() throws Exception {
-        this.mockMvc.perform(
-                get("/projects/TEST_KEY/builds")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(get("/projects/TEST_KEY/builds").accept(MEDIA_TYPE))
                 .andExpect(status().isNotFound());
     }
 

@@ -40,11 +40,8 @@ public class ProjectControllerTest extends AbstractControllerTest {
 
     @Test
     public void create() throws Exception {
-        this.mockMvc.perform(
-                post("/projects")
-                        .contentType(MEDIA_TYPE)
-                        .content(toJson("key:TEST_KEY", "name:Test Name"))
-        )
+        this.mockMvc.perform(post("/projects").contentType(MEDIA_TYPE)
+                .content(toJson("key:TEST_KEY", "name:Test Name")))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "http://localhost/projects/TEST_KEY"));
 
@@ -55,55 +52,40 @@ public class ProjectControllerTest extends AbstractControllerTest {
     public void createDuplicate() throws Exception {
         this.projectRepository.saveAndFlush(new Project("TEST_KEY", "Test Name"));
 
-        this.mockMvc.perform(
-                post("/projects")
-                        .contentType(MEDIA_TYPE)
-                        .content(toJson("key:TEST_KEY", "name:Test Name"))
-        )
+        this.mockMvc.perform(post("/projects").contentType(MEDIA_TYPE)
+                .content(toJson("key:TEST_KEY", "name:Test Name")))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void createMinKeySize() throws Exception {
-        this.mockMvc.perform(
-                post("/projects")
-                        .contentType(MEDIA_TYPE)
-                        .content(toJson("key:", "name:Test Name"))
-        )
+        this.mockMvc.perform(post("/projects").contentType(MEDIA_TYPE)
+                .content(toJson("key:", "name:Test Name")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("key value '' size")));
     }
 
     @Test
     public void createMaxKeySize() throws Exception {
-        this.mockMvc.perform(
-                post("/projects")
-                        .contentType(MEDIA_TYPE)
-                        .content(toJson("key:012345678", "name:Test Name"))
-        )
+        this.mockMvc.perform(post("/projects").contentType(MEDIA_TYPE)
+                .content(toJson("key:012345678", "name:Test Name")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("key value '012345678' size")));
     }
 
     @Test
     public void createMinNameSize() throws Exception {
-        this.mockMvc.perform(
-                post("/projects")
-                        .contentType(MEDIA_TYPE)
-                        .content(toJson("key:TEST_KEY", "name:"))
-        )
+        this.mockMvc.perform(post("/projects").contentType(MEDIA_TYPE)
+                .content(toJson("key:TEST_KEY", "name:")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("name value '' size")));
     }
 
     @Test
     public void createMaxNameSize() throws Exception {
-        this.mockMvc.perform(
-                post("/projects")
-                        .contentType(MEDIA_TYPE)
-                        .content(toJson("key:TEST_KEY",
-                                "name:012345678901234567890123456789012345678901234567890123456789012345"))
-        )
+        this.mockMvc.perform(post("/projects").contentType(MEDIA_TYPE)
+                .content(toJson("key:TEST_KEY",
+                        "name:012345678901234567890123456789012345678901234567890123456789012345")))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0]").value(startsWith("name value " +
                         "'012345678901234567890123456789012345678901234567890123456789012345' size")));
@@ -115,10 +97,7 @@ public class ProjectControllerTest extends AbstractControllerTest {
         this.projectRepository.saveAndFlush(new Project("ALPHA", "Test Name"));
         this.projectRepository.saveAndFlush(new Project("CHARLIE", "Test Name"));
 
-        this.mockMvc.perform(
-                get("/projects")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(get("/projects").accept(MEDIA_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].key").value("ALPHA"))
                 .andExpect(jsonPath("$[1].key").value("BRAVO"))
@@ -129,10 +108,7 @@ public class ProjectControllerTest extends AbstractControllerTest {
     public void read() throws Exception {
         this.projectRepository.saveAndFlush(new Project("TEST_KEY", "Test Name"));
 
-        this.mockMvc.perform(
-                get("/projects/TEST_KEY")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(get("/projects/TEST_KEY").accept(MEDIA_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.key").value("TEST_KEY"))
                 .andExpect(jsonPath("$.name").value("Test Name"))
@@ -142,10 +118,7 @@ public class ProjectControllerTest extends AbstractControllerTest {
 
     @Test
     public void readNotFound() throws Exception {
-        this.mockMvc.perform(
-                get("/projects/TEST_KEY")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(get("/projects/TEST_KEY").accept(MEDIA_TYPE))
                 .andExpect(status().isNotFound());
     }
 
@@ -153,19 +126,13 @@ public class ProjectControllerTest extends AbstractControllerTest {
     public void del() throws Exception {
         this.projectRepository.saveAndFlush(new Project("TEST_KEY", "Test Name"));
 
-        this.mockMvc.perform(
-                delete("/projects/TEST_KEY")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(delete("/projects/TEST_KEY").accept(MEDIA_TYPE))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void deleteNotFound() throws Exception {
-        this.mockMvc.perform(
-                delete("/projects/TEST_KEY")
-                        .accept(MEDIA_TYPE)
-        )
+        this.mockMvc.perform(delete("/projects/TEST_KEY").accept(MEDIA_TYPE))
                 .andExpect(status().isNotFound());
     }
 

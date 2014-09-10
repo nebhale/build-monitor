@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 final class MessagingBuildsChangedNotifier implements BuildsChangedNotifier {
@@ -51,10 +52,8 @@ final class MessagingBuildsChangedNotifier implements BuildsChangedNotifier {
 
     @Override
     public void buildsChanged(Project project) {
-        List<Resource<Build>> resources = new ArrayList<>();
-        for (Build build : this.repository.findAllByProjectOrderByCreatedDesc(project, PAGE)) {
-            resources.add(this.resourceAssembler.toResource(build));
-        }
+        List<Resource<Build>> resources = this.repository.findAllByProjectOrderByCreatedDesc(project,
+                PAGE).getContent().stream().map(this.resourceAssembler::toResource).collect(Collectors.toList());
 
         this.messageTemplate.convertAndSend(getDestination(project), resources);
     }
@@ -62,4 +61,5 @@ final class MessagingBuildsChangedNotifier implements BuildsChangedNotifier {
     private String getDestination(Project project) {
         return String.format("/app/projects/%s/builds", project.getKey());
     }
+
 }
