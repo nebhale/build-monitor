@@ -69,7 +69,7 @@ public final class WebHookController {
     @SuppressWarnings("unchecked")
     @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "", params = "payload")
-    ResponseEntity<Void> travisWebHook(@PathVariable Project project, @RequestParam("payload") Map<String, ?> payload)
+    ResponseEntity<?> travisWebHook(@PathVariable Project project, @RequestParam("payload") Map<String, ?> payload)
             throws IOException {
         return webHook(project, payload, this.travisPayloadParser);
     }
@@ -77,12 +77,12 @@ public final class WebHookController {
     @SuppressWarnings("unchecked")
     @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "")
-    ResponseEntity<Void> jenkinsWebHook(@PathVariable Project project, @RequestBody Map<String, ?> payload) throws
+    ResponseEntity<?> jenkinsWebHook(@PathVariable Project project, @RequestBody Map<String, ?> payload) throws
             IOException {
         return webHook(project, payload, this.jenkinsPayloadParser);
     }
 
-    private ResponseEntity<Void> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) throws
+    private ResponseEntity<?> webHook(Project project, Map<String, ?> payload, PayloadParser payloadParser) throws
             JsonProcessingException {
         if (this.logger.isDebugEnabled()) {
             this.logger.debug(this.objectMapper.writeValueAsString(payload));

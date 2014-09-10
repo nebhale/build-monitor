@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public final class ProjectController {
 
     @Transactional
     @RequestMapping(method = RequestMethod.POST, value = "", produces = MEDIA_TYPE)
-    ResponseEntity<Void> create(@RequestBody Project project) {
+    ResponseEntity<?> create(@RequestBody Project project) {
         if (this.repository.exists(project.getKey())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -79,7 +80,7 @@ public final class ProjectController {
 
     @Transactional(readOnly = true)
     @RequestMapping(method = RequestMethod.GET, value = "", produces = MEDIA_TYPE)
-    ResponseEntity<List<Resource<Project>>> readAll() {
+    ResponseEntity<?> readAll() {
         List<Resource<Project>> resources = this.repository.findAll(new Sort("key")).stream()
                 .map(this.resourceAssembler::toResource).collect(Collectors.toList());
 
@@ -88,7 +89,7 @@ public final class ProjectController {
 
     @Transactional(readOnly = true)
     @RequestMapping(method = RequestMethod.GET, value = "/{project}", produces = MEDIA_TYPE)
-    ResponseEntity<Resource<Project>> read(@PathVariable Project project) {
+    ResponseEntity<?> read(@PathVariable Project project) {
         if (project == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
