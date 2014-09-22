@@ -16,7 +16,7 @@
 
 package com.nebhale.buildmonitor.web;
 
-import com.nebhale.buildmonitor.ApplicationConfiguration;
+import com.nebhale.buildmonitor.Application;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationConfiguration.class)
+@SpringApplicationConfiguration(classes = Application.class)
 @Transactional
 @WebAppConfiguration
 public abstract class AbstractControllerTest {

@@ -18,14 +18,19 @@ package com.nebhale.buildmonitor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.cloud.config.java.ServiceScan;
+import org.springframework.cloud.security.sso.EnableOAuth2Sso;
+import org.springframework.cloud.security.sso.OAuth2SsoConfigurer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -37,9 +42,10 @@ import java.util.List;
  * Main configuration and application entry point
  */
 @ComponentScan
+@Configuration
 @EnableAutoConfiguration
 @EnableSpringDataWebSupport
-public class ApplicationConfiguration {
+public class Application {
 
     /**
      * Start method
@@ -49,7 +55,30 @@ public class ApplicationConfiguration {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ApplicationConfiguration.class, args);
+        SpringApplication.run(Application.class, args);
+    }
+
+    @Configuration
+    @EnableOAuth2Sso
+    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER - 1)
+    @Profile("oauth")
+    static class OAuthConfiguration implements OAuth2SsoConfigurer {
+
+        @Override
+        public void configure(HttpSecurity http) {
+            try {
+                http
+                    .authorizeRequests()
+//                    .antMatchers("/management.html")
+//                    .access("isAuthenticated() && authentication.userAuthentication.details['login'] == 'nebhale'");
+                    .anyRequest()
+                    .access("isAuthenticated() && authentication.userAuthentication.details['login'] == 'nebhale'");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Configuration

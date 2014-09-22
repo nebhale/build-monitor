@@ -43,6 +43,9 @@
           <option name="BLANK_LINES_AROUND_FIELD_IN_INTERFACE" value="1" />
           <option name="BLANK_LINES_AFTER_CLASS_HEADER" value="1" />
           <option name="BLANK_LINES_AFTER_ANONYMOUS_CLASS_HEADER" value="1" />
+          <indentOptions>
+            <option name="CONTINUATION_INDENT_SIZE" value="4" />
+          </indentOptions>
         </codeStyleSettings>
       </value>
     </option>

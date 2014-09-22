@@ -35,8 +35,10 @@
     <packaging>jar</packaging>
 
     <properties>
-        <spring-cloud.version>1.1.0.RELEASE</spring-cloud.version>
+        <spring-cloud.version>1.0.0.M1</spring-cloud.version>
+        <spring-cloud-connector.version>1.1.0.RELEASE</spring-cloud-connector.version>
         <spring-plugin.version>1.1.0.RELEASE</spring-plugin.version>
+        <spring-security-oauth2.version>2.0.3.RELEASE</spring-security-oauth2.version>
 
         <angularjs.version>1.2.26</angularjs.version>
         <font-awesome.version>4.2.0</font-awesome.version>
@@ -74,6 +76,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -86,18 +92,28 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-security</artifactId>
+            <version>${spring-cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring-security-oauth2.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-            <version>${spring-cloud.version}</version>
+            <version>${spring-cloud-connector.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-spring-service-connector</artifactId>
-            <version>${spring-cloud.version}</version>
+            <version>${spring-cloud-connector.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.hateoas</groupId>
@@ -156,4 +172,10 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>spring-milestone</id>
+            <url>http://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
 </project>
