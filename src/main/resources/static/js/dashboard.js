@@ -212,7 +212,7 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_MINUTES = 5;
 
-        var DATA_URI = 'http://status.travis-ci.com/index.json';
+        var DATA_URI = 'https://travisci.statuspage.io/index.json';
 
         $scope.LINK_URI = 'http://status.travis-ci.com';
 
@@ -240,7 +240,7 @@ angular.module('dashboard', ['ng', 'links', 'moment', 'sockjs', 'stomp'])
 
         var DELAY_IN_MINUTES = 5;
 
-        var DATA_URI = 'http://status.run.pivotal.io/index.json';
+        var DATA_URI = 'https://pws.statuspage.io/index.json';
 
         $scope.LINK_URI = 'http://status.run.pivotal.io';
 

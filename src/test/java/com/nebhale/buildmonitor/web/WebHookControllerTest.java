@@ -20,7 +20,6 @@ import com.nebhale.buildmonitor.domain.Build;
 import com.nebhale.buildmonitor.domain.Project;
 import com.nebhale.buildmonitor.repository.BuildRepository;
 import com.nebhale.buildmonitor.repository.ProjectRepository;
-import com.nebhale.buildmonitor.utils.IoUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -118,13 +117,8 @@ public class WebHookControllerTest extends AbstractControllerTest {
     }
 
     private String read(String filename) throws IOException {
-        InputStream in = null;
-
-        try {
-            in = new FileInputStream("src/test/resources/" + filename);
+        try (InputStream in = new FileInputStream("src/test/resources/" + filename)) {
             return StreamUtils.copyToString(in, Charset.forName("UTF-8"));
-        } finally {
-            IoUtils.closeQuietly(in);
         }
     }
 

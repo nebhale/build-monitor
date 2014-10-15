@@ -45,14 +45,15 @@ public final class MessagingBuildsChangedNotifierTest {
             .messageTemplate, this.repository, this.resourceAssembler);
 
     @Test
+    @SuppressWarnings("unchecked")
     public void BuildsChanged() {
         Project project = new Project("TEST-KEY", "Test Name");
         Build build1 = new Build(project, "test-uri-1", Build.State.FAIL);
         Build build2 = new Build(project, "test-uri-2", Build.State.FAIL);
         Resource<Build> resource1 = new Resource<>(build1);
         Resource<Build> resource2 = new Resource<>(build2);
-        when(this.repository.findAllByProjectOrderByCreatedDesc(project, new PageRequest(0,
-                10))).thenReturn(new PageImpl<Build>(Arrays.asList(build1, build2)));
+        when(this.repository.findAllByProjectOrderByCreatedDesc(project, new PageRequest(0, 10)))
+                .thenReturn(new PageImpl<>(Arrays.asList(build1, build2)));
         when(this.resourceAssembler.toResource(build1)).thenReturn(resource1);
         when(this.resourceAssembler.toResource(build2)).thenReturn(resource2);
 
@@ -61,4 +62,5 @@ public final class MessagingBuildsChangedNotifierTest {
         verify(this.messageTemplate).convertAndSend("/app/projects/TEST-KEY/builds", Arrays.asList(resource1,
                 resource2));
     }
+
 }

@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.1.RELEASE</version>
+        <version>1.1.8.RELEASE</version>
     </parent>
 
     <groupId>com.nebhale</groupId>
@@ -35,19 +35,18 @@
     <packaging>jar</packaging>
 
     <properties>
-        <json-path.version>0.9.1</json-path.version>
-        <spring-cloud.version>1.0.0.RELEASE</spring-cloud.version>
+        <spring-cloud.version>1.1.0.RELEASE</spring-cloud.version>
         <spring-plugin.version>1.1.0.RELEASE</spring-plugin.version>
 
-        <angularjs.version>1.2.18</angularjs.version>
-        <font-awesome.version>4.1.0</font-awesome.version>
-        <lodash.version>2.4.1-4</lodash.version>
-        <momentjs.version>2.7.0</momentjs.version>
+        <angularjs.version>1.2.26</angularjs.version>
+        <font-awesome.version>4.2.0</font-awesome.version>
+        <lodash.version>2.4.1-6</lodash.version>
+        <momentjs.version>2.8.3</momentjs.version>
         <sockjs-client.version>0.3.4</sockjs-client.version>
         <stomp-websocket.version>2.3.1</stomp-websocket.version>
 
-        <java.version>1.7</java.version>
-        <tomcat.version>8.0.8</tomcat.version>
+        <java.version>1.8</java.version>
+        <tomcat.version>8.0.14</tomcat.version>
     </properties>
 
     <dependencies>
@@ -59,7 +58,6 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -104,7 +102,6 @@
         <dependency>
             <groupId>org.springframework.hateoas</groupId>
             <artifactId>spring-hateoas</artifactId>
-            <version>${spring-hateoas.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.plugin</groupId>

@@ -60,7 +60,7 @@ angular.module('underscore', [])
     }]);
 
 angular.module('links', ['underscore'])
-    .factory('links', ['$window', '_', function ($window, _) {
+    .factory('links', ['$window', function ($window) {
         'use strict';
 
         return {

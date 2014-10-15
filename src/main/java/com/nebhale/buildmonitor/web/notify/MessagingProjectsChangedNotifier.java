@@ -25,8 +25,8 @@ import org.springframework.hateoas.Resource;
 import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 final class MessagingProjectsChangedNotifier implements ProjectsChangedNotifier {
@@ -47,11 +47,10 @@ final class MessagingProjectsChangedNotifier implements ProjectsChangedNotifier 
 
     @Override
     public void projectsChanged() {
-        List<Resource<Project>> resources = new ArrayList<>();
-        for (Project project : this.repository.findAll(new Sort("key"))) {
-            resources.add(this.resourceAssembler.toResource(project));
-        }
+        List<Resource<Project>> resources = this.repository.findAll(new Sort("key")).stream()
+                .map(this.resourceAssembler::toResource).collect(Collectors.toList());
 
         this.messageTemplate.convertAndSend("/app/projects", resources);
     }
+
 }

@@ -2,13 +2,18 @@
   <dictionary name="bhale">
     <words>
       <w>buildmonitor</w>
+      <w>caniuse</w>
       <w>closeables</w>
       <w>configurer</w>
+      <w>dmaven</w>
       <w>errored</w>
       <w>flywaydb</w>
       <w>github</w>
       <w>googlecode</w>
+      <w>hostable</w>
       <w>jdbc</w>
+      <w>licensable</w>
+      <w>licensor</w>
       <w>lodash</w>
       <w>logback</w>
       <w>nebhale</w>
@@ -21,6 +26,8 @@
       <w>stdout</w>
       <w>webhook</w>
       <w>websocket</w>
+      <w>websockets</w>
+      <w>yyyy</w>
     </words>
   </dictionary>
 </component>

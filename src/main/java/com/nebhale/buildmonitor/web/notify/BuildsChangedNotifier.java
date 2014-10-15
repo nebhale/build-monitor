@@ -29,4 +29,5 @@ public interface BuildsChangedNotifier {
      * @param project the project with changed builds
      */
     void buildsChanged(Project project);
+
 }

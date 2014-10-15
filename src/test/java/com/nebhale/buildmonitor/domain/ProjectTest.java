@@ -29,4 +29,5 @@ public final class ProjectTest {
         assertEquals("TEST-KEY", project.getKey());
         assertEquals("test-name", project.getName());
     }
+
 }

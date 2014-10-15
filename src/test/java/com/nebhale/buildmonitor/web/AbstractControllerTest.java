@@ -20,7 +20,6 @@ import com.nebhale.buildmonitor.ApplicationConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -42,9 +41,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public abstract class AbstractControllerTest {
 
-    protected volatile JdbcTemplate jdbcTemplate;
+    private volatile JdbcTemplate jdbcTemplate;
 
-    protected volatile MockMvc mockMvc;
+    volatile MockMvc mockMvc;
 
     @Autowired
     final void setDataSource(DataSource dataSource) {
@@ -56,11 +55,11 @@ public abstract class AbstractControllerTest {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
-    protected final int countRowsInTable(String tableName) {
+    final int countRowsInTable(String tableName) {
         return JdbcTestUtils.countRowsInTable(this.jdbcTemplate, tableName);
     }
 
-    protected final String toJson(String... pairs) {
+    final String toJson(String... pairs) {
         StringBuilder sb = new StringBuilder("{ ");
 
         Set<String> entries = new HashSet<>(pairs.length);
@@ -73,4 +72,5 @@ public abstract class AbstractControllerTest {
 
         return sb.append(" }").toString();
     }
+
 }

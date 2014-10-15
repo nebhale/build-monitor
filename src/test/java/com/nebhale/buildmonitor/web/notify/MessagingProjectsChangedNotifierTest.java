@@ -43,6 +43,7 @@ public final class MessagingProjectsChangedNotifierTest {
             .messageTemplate, this.repository, this.resourceAssembler);
 
     @Test
+    @SuppressWarnings("unchecked")
     public void projectsChanged() {
         Project project1 = new Project("TEST-KEY-1", "Test Name 1");
         Project project2 = new Project("TEST-KEY-2", "Test Name 2");
@@ -56,4 +57,5 @@ public final class MessagingProjectsChangedNotifierTest {
 
         verify(this.messageTemplate).convertAndSend("/app/projects", Arrays.asList(resource1, resource2));
     }
+
 }

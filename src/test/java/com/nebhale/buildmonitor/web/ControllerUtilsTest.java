@@ -55,4 +55,5 @@ public final class ControllerUtilsTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(1, responseEntity.getBody().size());
     }
+
 }

@@ -25,6 +25,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 final class ControllerUtils {
@@ -34,11 +35,12 @@ final class ControllerUtils {
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
 
         Set<String> messages = new HashSet<>(constraintViolations.size());
-        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-            messages.add(String.format("%s value '%s' %s", constraintViolation.getPropertyPath(),
-                    constraintViolation.getInvalidValue(), constraintViolation.getMessage()));
-        }
+        messages.addAll(constraintViolations.stream()
+                .map(constraintViolation -> String.format("%s value '%s' %s", constraintViolation.getPropertyPath(),
+                        constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
+                .collect(Collectors.toList()));
 
         return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
     }
+
 }

@@ -81,4 +81,5 @@ public final class JenkinsPayloadParserTest extends AbstractPayloadParserTest {
     public void shouldProcessNonMaster() throws IOException {
         assertShouldProcess("jenkins-non-master-webhook.json", false);
     }
+
 }

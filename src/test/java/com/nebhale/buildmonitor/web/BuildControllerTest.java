@@ -61,4 +61,5 @@ public class BuildControllerTest extends AbstractControllerTest {
         )
                 .andExpect(status().isNotFound());
     }
+
 }

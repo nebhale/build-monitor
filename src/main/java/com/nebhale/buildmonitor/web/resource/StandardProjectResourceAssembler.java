@@ -29,6 +29,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 final class StandardProjectResourceAssembler implements ProjectResourceAssembler {
 
     @Override
+    @SuppressWarnings("unchecked")
     public Resource<Project> toResource(Project project) {
         Resource<Project> resource = new Resource<>(project);
 
@@ -38,4 +39,5 @@ final class StandardProjectResourceAssembler implements ProjectResourceAssembler
 
         return resource;
     }
+
 }

@@ -40,4 +40,5 @@ public final class BuildTest {
 
         assertEquals(Build.State.FAIL, build.getState());
     }
+
 }

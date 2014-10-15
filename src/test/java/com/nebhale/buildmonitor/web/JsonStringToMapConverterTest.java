@@ -36,4 +36,5 @@ public final class JsonStringToMapConverterTest {
     public void convertFailure() {
         this.converter.convert("{");
     }
+
 }

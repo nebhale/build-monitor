@@ -30,19 +30,19 @@ public abstract class AbstractPayloadParserTest {
 
     private final WebHookController.PayloadParser payloadParser;
 
-    protected AbstractPayloadParserTest(WebHookController.PayloadParser payloadParser) {
+    AbstractPayloadParserTest(WebHookController.PayloadParser payloadParser) {
         this.payloadParser = payloadParser;
     }
 
-    protected final void assertShouldProcess(String filename, Boolean shouldProcess) throws IOException {
+    final void assertShouldProcess(String filename, Boolean shouldProcess) throws IOException {
         Assert.assertEquals(shouldProcess, this.payloadParser.shouldProcess(getPayload(filename)));
     }
 
-    protected final void assertState(String filename, Build.State state) throws IOException {
+    final void assertState(String filename, Build.State state) throws IOException {
         Assert.assertEquals(state, this.payloadParser.getState(getPayload(filename)));
     }
 
-    protected final void assertUri(String filename, String uri) throws IOException {
+    final void assertUri(String filename, String uri) throws IOException {
         Assert.assertEquals(uri, this.payloadParser.getUri(getPayload(filename)));
     }
 
@@ -50,4 +50,5 @@ public abstract class AbstractPayloadParserTest {
     private Map<String, ?> getPayload(String filename) throws IOException {
         return this.objectMapper.readValue(new File("src/test/resources/" + filename), Map.class);
     }
+
 }

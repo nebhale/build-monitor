@@ -36,4 +36,5 @@ final class JsonStringToMapConverter implements Converter<String, Map<?, ?>> {
             throw new IllegalArgumentException(String.format("Unable to convert JSON string '%s' to Map", source));
         }
     }
+
 }

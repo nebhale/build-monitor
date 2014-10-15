@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -80,10 +80,8 @@ public final class ProjectController {
     @Transactional(readOnly = true)
     @RequestMapping(method = RequestMethod.GET, value = "", produces = MEDIA_TYPE)
     ResponseEntity<List<Resource<Project>>> readAll() {
-        List<Resource<Project>> resources = new ArrayList<>();
-        for (Project project : this.repository.findAll(new Sort("key"))) {
-            resources.add(this.resourceAssembler.toResource(project));
-        }
+        List<Resource<Project>> resources = this.repository.findAll(new Sort("key")).stream()
+                .map(this.resourceAssembler::toResource).collect(Collectors.toList());
 
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }

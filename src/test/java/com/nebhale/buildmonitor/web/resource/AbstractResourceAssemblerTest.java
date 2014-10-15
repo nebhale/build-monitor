@@ -30,4 +30,5 @@ public abstract class AbstractResourceAssemblerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         RequestContextHolder.setRequestAttributes(new ServletWebRequest(request, response));
     }
+
 }

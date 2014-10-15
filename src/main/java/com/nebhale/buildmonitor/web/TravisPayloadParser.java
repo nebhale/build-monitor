@@ -83,4 +83,5 @@ final class TravisPayloadParser implements WebHookController.PayloadParser {
         String compareUrl = (String) payload.get("compare_url");
         return compareUrl != null && PULL_REQUEST.matcher(compareUrl).matches();
     }
+
 }
