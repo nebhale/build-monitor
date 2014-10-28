@@ -60,8 +60,7 @@ public final class BuildController {
 
     @Transactional(readOnly = true)
     @RequestMapping(method = RequestMethod.GET, value = "", produces = MEDIA_TYPE)
-    ResponseEntity<PagedResources<Resource<Build>>> readAll(@PathVariable Project project,
-                                                            @PageableDefault(size = 10) Pageable pageable) {
+    ResponseEntity<?> readAll(@PathVariable Project project, @PageableDefault(size = 10) Pageable pageable) {
         if (project == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

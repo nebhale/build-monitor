@@ -99,7 +99,7 @@ public final class ProjectController {
 
     @Transactional
     @RequestMapping(method = RequestMethod.DELETE, value = "/{project}")
-    ResponseEntity<Void> delete(@PathVariable Project project) {
+    ResponseEntity<?> delete(@PathVariable Project project) {
         if (project == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
