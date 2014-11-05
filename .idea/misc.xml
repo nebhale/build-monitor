@@ -6,6 +6,7 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="IdProvider" IDEtalkID="8E4517E73B6641A42779EC1714DCF7BE" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -100,4 +101,3 @@
     </configuration>
   </component>
 </project>
-
